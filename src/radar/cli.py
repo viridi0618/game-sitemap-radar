@@ -42,7 +42,8 @@ def cmd_discover(_args) -> int:
     with connect() as conn:
         init_db(conn)
         fetcher = Fetcher(config.settings.user_agent, config.settings.request_timeout_seconds)
-        for source in config.sources:
+        for index, source in enumerate(config.sources, start=1):
+            print(f"[discover {index}/{len(config.sources)}] {source.domain}", flush=True)
             source_id = upsert_source(conn, source)
             sitemap_urls, robots_result = discover_sitemap_urls(source.domain, fetcher, source.sitemap_url)
             if robots_result and robots_result.error:
@@ -71,6 +72,7 @@ def _crawl_source(conn, source_row, settings, rules, fetcher) -> tuple[int, int,
         if sitemap_url in seen_sitemaps:
             continue
         seen_sitemaps.add(sitemap_url)
+        print(f"  fetching sitemap {len(seen_sitemaps)}/{settings.max_sitemaps_per_source}: {sitemap_url}", flush=True)
         result = fetcher.fetch(sitemap_url)
         if result.error or result.status_code >= 400 or result.status_code == 0:
             upsert_sitemap(conn, source_row["id"], sitemap_url, "unknown", result.status_code, result.error or f"HTTP {result.status_code}")
@@ -119,8 +121,13 @@ def cmd_crawl(_args) -> int:
         run_id = start_run(conn, len(sources))
         totals = [0, 0, 0, 0]
         fetcher = Fetcher(config.settings.user_agent, config.settings.request_timeout_seconds)
-        for source_row in sources:
+        for index, source_row in enumerate(sources, start=1):
+            print(f"[crawl {index}/{len(sources)}] {source_row['domain']}", flush=True)
             sitemap_count, url_count, new_url_count, error_count = _crawl_source(conn, source_row, config.settings, rules, fetcher)
+            print(
+                f"  done: {sitemap_count} sitemaps, {url_count} URLs, {new_url_count} new, {error_count} errors",
+                flush=True,
+            )
             totals[0] += sitemap_count
             totals[1] += url_count
             totals[2] += new_url_count
@@ -147,9 +154,13 @@ def cmd_report(_args) -> int:
 
 
 def cmd_run(args) -> int:
+    print("== init ==", flush=True)
     cmd_init(args)
+    print("== discover ==", flush=True)
     cmd_discover(args)
+    print("== crawl ==", flush=True)
     cmd_crawl(args)
+    print("== report ==", flush=True)
     cmd_report(args)
     return 0
 
@@ -197,4 +208,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

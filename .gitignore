@@ -3,6 +3,6 @@ __pycache__/
 .pytest_cache/
 .venv/
 data/*.sqlite
+data/*.sqlite-journal
 outputs/*.md
 outputs/*.csv
-
