@@ -1,0 +1,23 @@
+sources:
+  - name: Example Game Site
+    domain: example.com
+    sitemap_url: https://example.com/sitemap.xml
+    site_type: general
+    language: en
+    priority: 3
+
+  - name: Example Roblox Codes Site
+    domain: example-codes.com
+    sitemap_url:
+    site_type: codes
+    language: en
+    priority: 4
+
+settings:
+  request_timeout_seconds: 20
+  max_sitemaps_per_source: 50
+  max_urls_per_sitemap: 50000
+  delay_seconds_per_source: 1
+  user_agent: "GameSitemapRadar/0.1 (+keyword research; respects robots.txt)"
+  report_window_hours: 72
+

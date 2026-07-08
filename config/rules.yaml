@@ -1,0 +1,51 @@
+page_types:
+  codes:
+    - codes
+    - redeem
+    - working-codes
+    - active-codes
+  wiki:
+    - wiki
+    - database
+  guide:
+    - guide
+    - walkthrough
+  tier_list:
+    - tier-list
+    - tierlist
+    - best-units
+    - best-characters
+    - rankings
+  best:
+    - best
+  how_to:
+    - how-to
+    - how-to-get
+    - how-to-unlock
+    - where-to-find
+  items:
+    - items
+    - item
+  traits:
+    - traits
+    - trait
+  mutations:
+    - mutations
+    - mutation
+  values:
+    - values
+    - value-list
+    - worth
+  calculator:
+    - calculator
+  map:
+    - map
+  boss:
+    - boss
+  update:
+    - update
+  release:
+    - release
+  news:
+    - news
+
