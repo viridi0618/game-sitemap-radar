@@ -6,3 +6,4 @@ data/*.sqlite
 data/*.sqlite-journal
 outputs/*.md
 outputs/*.csv
+outputs/writing/

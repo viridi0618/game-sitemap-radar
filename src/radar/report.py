@@ -8,6 +8,8 @@ from pathlib import Path
 
 from .scoring import label_for_score, score_candidate
 from .utils import PROJECT_ROOT, ensure_dirs, parse_dt, utc_now
+from .writing_planner import create_writing_plan
+from .models import WritingSettings
 
 
 def build_candidates(conn, window_hours: int, run_id: int | None = None) -> list[dict]:
@@ -129,6 +131,30 @@ def write_reports(conn, window_hours: int, run_id: int | None = None) -> tuple[P
                 "",
             ]
         )
+        if candidate["score"] >= 60:
+            plan = create_writing_plan(candidate, WritingSettings())
+            lines.extend(["Suggested writing plan:", ""])
+            lines.extend(f"- {page.title}" for page in plan.pages)
+            lines.extend(
+                [
+                    "",
+                    "Manual verification checklist:",
+                    "- Official game URL",
+                    "- Platform",
+                    "- Launch date",
+                    "- Current player count",
+                    "- Recent update date",
+                    "- YouTube activity",
+                    "- Google Trends check",
+                    "- SERP competition",
+                    "- Whether codes exist",
+                    "- Whether game has enough systems for 5+ pages",
+                    "",
+                    "Writing commands:",
+                    f'```bash\npython -m radar.cli plan-writing --candidate "{name}"\npython -m radar.cli generate-briefs --project "{name}"\npython -m radar.cli generate-drafts --project "{name}"\n```',
+                    "",
+                ]
+            )
 
     lines.extend(["## New URLs By Source", ""])
     by_domain = defaultdict(list)
@@ -170,4 +196,3 @@ def write_reports(conn, window_hours: int, run_id: int | None = None) -> tuple[P
             row["sample_urls"] = json.dumps(row["sample_urls"], ensure_ascii=False)
             writer.writerow(row)
     return md_path, csv_path, candidates
-

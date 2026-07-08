@@ -240,3 +240,37 @@ settings:
   delay_seconds_per_source: 1
   user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
   report_window_hours: 72
+
+writing:
+  default_language: en
+  min_candidate_score_for_writing: 60
+  max_pages_per_candidate: 8
+  require_manual_research_before_final_export: true
+  draft_status: draft_needs_review
+  include_source_placeholders: true
+  avoid_overclaim_words:
+    - complete
+    - verified
+    - guaranteed
+    - all
+    - every
+    - official
+  page_type_priority:
+    codes: 90
+    wiki: 85
+    homepage: 82
+    beginner_guide: 80
+    guide: 75
+    tier_list: 75
+    how_to: 70
+    values: 65
+    calculator: 60
+    items: 55
+    traits: 55
+    mutations: 55
+    faq: 50
+    map: 50
+    boss: 50
+    update: 40
+    release: 35
+    news: 25

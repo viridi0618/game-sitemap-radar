@@ -31,6 +31,8 @@ def init_db(conn: sqlite3.Connection) -> None:
           site_type TEXT,
           language TEXT,
           priority INTEGER,
+          include_url_keywords TEXT,
+          exclude_url_keywords TEXT,
           created_at TEXT,
           updated_at TEXT
         );
@@ -80,26 +82,97 @@ def init_db(conn: sqlite3.Connection) -> None:
           latest_seen_at TEXT,
           sample_urls TEXT
         );
+        CREATE TABLE IF NOT EXISTS writing_projects (
+          id INTEGER PRIMARY KEY,
+          normalized_candidate_game TEXT UNIQUE,
+          display_game_name TEXT,
+          source_signal_score INTEGER,
+          created_at TEXT,
+          updated_at TEXT,
+          status TEXT,
+          notes TEXT
+        );
+        CREATE TABLE IF NOT EXISTS writing_pages (
+          id INTEGER PRIMARY KEY,
+          project_id INTEGER,
+          page_type TEXT,
+          target_keyword TEXT,
+          slug TEXT,
+          title TEXT,
+          meta_description TEXT,
+          h1 TEXT,
+          intent TEXT,
+          priority INTEGER,
+          status TEXT,
+          created_at TEXT,
+          updated_at TEXT,
+          UNIQUE(project_id, page_type)
+        );
+        CREATE TABLE IF NOT EXISTS writing_briefs (
+          id INTEGER PRIMARY KEY,
+          page_id INTEGER UNIQUE,
+          brief_json TEXT,
+          created_at TEXT,
+          updated_at TEXT
+        );
+        CREATE TABLE IF NOT EXISTS writing_drafts (
+          id INTEGER PRIMARY KEY,
+          page_id INTEGER UNIQUE,
+          draft_markdown TEXT,
+          quality_flags TEXT,
+          source_placeholders TEXT,
+          created_at TEXT,
+          updated_at TEXT
+        );
+        CREATE TABLE IF NOT EXISTS manual_research_notes (
+          id INTEGER PRIMARY KEY,
+          project_id INTEGER,
+          source_name TEXT,
+          source_url TEXT,
+          note TEXT,
+          created_at TEXT
+        );
         """
     )
+    _ensure_column(conn, "sources", "include_url_keywords", "TEXT")
+    _ensure_column(conn, "sources", "exclude_url_keywords", "TEXT")
     conn.commit()
+
+
+def _ensure_column(conn: sqlite3.Connection, table: str, column: str, decl: str) -> None:
+    columns = {row["name"] for row in conn.execute(f"PRAGMA table_info({table})").fetchall()}
+    if column not in columns:
+        conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {decl}")
 
 
 def upsert_source(conn: sqlite3.Connection, source) -> int:
     now = utc_now()
     conn.execute(
         """
-        INSERT INTO sources(name, domain, sitemap_url, site_type, language, priority, created_at, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO sources(name, domain, sitemap_url, site_type, language, priority, include_url_keywords, exclude_url_keywords, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT(domain) DO UPDATE SET
           name=excluded.name,
           sitemap_url=excluded.sitemap_url,
           site_type=excluded.site_type,
           language=excluded.language,
           priority=excluded.priority,
+          include_url_keywords=excluded.include_url_keywords,
+          exclude_url_keywords=excluded.exclude_url_keywords,
           updated_at=excluded.updated_at
         """,
-        (source.name, source.domain, source.sitemap_url, source.site_type, source.language, source.priority, now, now),
+        (
+            source.name,
+            source.domain,
+            source.sitemap_url,
+            source.site_type,
+            source.language,
+            source.priority,
+            json.dumps(source.include_url_keywords),
+            json.dumps(source.exclude_url_keywords),
+            now,
+            now,
+        ),
     )
     row = conn.execute("SELECT id FROM sources WHERE domain = ?", (source.domain,)).fetchone()
     conn.commit()
@@ -203,5 +276,111 @@ def insert_candidate_signal(conn: sqlite3.Connection, run_id: int, candidate: di
             candidate["latest_seen_at"],
             json.dumps(candidate["sample_urls"]),
         ),
+    )
+    conn.commit()
+
+
+def upsert_writing_project(conn: sqlite3.Connection, candidate: dict, status: str = "planned", notes: str | None = None) -> int:
+    now = utc_now()
+    conn.execute(
+        """
+        INSERT INTO writing_projects(normalized_candidate_game, display_game_name, source_signal_score, created_at, updated_at, status, notes)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(normalized_candidate_game) DO UPDATE SET
+          display_game_name=excluded.display_game_name,
+          source_signal_score=excluded.source_signal_score,
+          updated_at=excluded.updated_at,
+          status=excluded.status,
+          notes=COALESCE(excluded.notes, writing_projects.notes)
+        """,
+        (
+            candidate["normalized_candidate_game"],
+            candidate["display_game_name"],
+            int(candidate.get("score", 0)),
+            now,
+            now,
+            status,
+            notes,
+        ),
+    )
+    row = conn.execute(
+        "SELECT id FROM writing_projects WHERE normalized_candidate_game=?",
+        (candidate["normalized_candidate_game"],),
+    ).fetchone()
+    conn.commit()
+    return int(row["id"])
+
+
+def upsert_writing_page(conn: sqlite3.Connection, project_id: int, page: dict, status: str = "planned") -> int:
+    now = utc_now()
+    conn.execute(
+        """
+        INSERT INTO writing_pages(project_id, page_type, target_keyword, slug, title, meta_description, h1, intent, priority, status, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(project_id, page_type) DO UPDATE SET
+          target_keyword=excluded.target_keyword,
+          slug=excluded.slug,
+          title=excluded.title,
+          meta_description=excluded.meta_description,
+          h1=excluded.h1,
+          intent=excluded.intent,
+          priority=excluded.priority,
+          status=excluded.status,
+          updated_at=excluded.updated_at
+        """,
+        (
+            project_id,
+            page["page_type"],
+            page["target_keyword"],
+            page["slug"],
+            page["title"],
+            page["meta_description"],
+            page["h1"],
+            page["intent"],
+            int(page["priority"]),
+            status,
+            now,
+            now,
+        ),
+    )
+    row = conn.execute("SELECT id FROM writing_pages WHERE project_id=? AND page_type=?", (project_id, page["page_type"])).fetchone()
+    conn.commit()
+    return int(row["id"])
+
+
+def upsert_writing_brief(conn: sqlite3.Connection, page_id: int, brief: dict) -> None:
+    now = utc_now()
+    conn.execute(
+        """
+        INSERT INTO writing_briefs(page_id, brief_json, created_at, updated_at)
+        VALUES (?, ?, ?, ?)
+        ON CONFLICT(page_id) DO UPDATE SET brief_json=excluded.brief_json, updated_at=excluded.updated_at
+        """,
+        (page_id, json.dumps(brief, ensure_ascii=False, indent=2), now, now),
+    )
+    conn.commit()
+
+
+def upsert_writing_draft(conn: sqlite3.Connection, page_id: int, draft_markdown: str, quality_flags: list[str], source_placeholders: list[str]) -> None:
+    now = utc_now()
+    conn.execute(
+        """
+        INSERT INTO writing_drafts(page_id, draft_markdown, quality_flags, source_placeholders, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?)
+        ON CONFLICT(page_id) DO UPDATE SET
+          draft_markdown=excluded.draft_markdown,
+          quality_flags=excluded.quality_flags,
+          source_placeholders=excluded.source_placeholders,
+          updated_at=excluded.updated_at
+        """,
+        (page_id, draft_markdown, json.dumps(quality_flags), json.dumps(source_placeholders), now, now),
+    )
+    conn.commit()
+
+
+def add_manual_research_note(conn: sqlite3.Connection, project_id: int, source_name: str, source_url: str, note: str) -> None:
+    conn.execute(
+        "INSERT INTO manual_research_notes(project_id, source_name, source_url, note, created_at) VALUES (?, ?, ?, ?, ?)",
+        (project_id, source_name, source_url, note, utc_now()),
     )
     conn.commit()

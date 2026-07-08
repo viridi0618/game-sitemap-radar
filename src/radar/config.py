@@ -4,7 +4,7 @@ import ast
 import shutil
 from pathlib import Path
 
-from .models import AppConfig, Settings, Source
+from .models import AppConfig, Settings, Source, WritingSettings
 from .utils import PROJECT_ROOT, ensure_dirs
 
 
@@ -31,6 +31,7 @@ def _minimal_yaml_load(text: str) -> dict:
     section = None
     current_item = None
     current_map_key = None
+    current_source_list_key = None
     for raw in text.splitlines():
         line = raw.split("#", 1)[0].rstrip()
         if not line.strip():
@@ -42,28 +43,50 @@ def _minimal_yaml_load(text: str) -> dict:
             data[section] = [] if section == "sources" else {}
             current_item = None
             current_map_key = None
+            current_source_list_key = None
             continue
         if section == "sources":
             if stripped.startswith("- "):
                 current_item = {}
                 data["sources"].append(current_item)
+                current_source_list_key = None
                 rest = stripped[2:]
                 if rest:
                     key, value = rest.split(":", 1)
                     current_item[key.strip()] = _coerce_scalar(value)
             elif current_item is not None and ":" in stripped:
                 key, value = stripped.split(":", 1)
-                current_item[key.strip()] = _coerce_scalar(value)
+                key = key.strip()
+                if value.strip() == "":
+                    current_item[key] = []
+                    current_source_list_key = key
+                else:
+                    current_item[key] = _coerce_scalar(value)
+                    current_source_list_key = None
+            elif current_item is not None and indent >= 4 and stripped.startswith("- ") and current_source_list_key:
+                current_item[current_source_list_key].append(_coerce_scalar(stripped[2:]))
         elif isinstance(data.get(section), dict):
             if indent == 2 and stripped.endswith(":"):
                 current_map_key = stripped[:-1]
-                data[section][current_map_key] = []
+                data[section][current_map_key] = {}
             elif indent == 2 and ":" in stripped:
                 key, value = stripped.split(":", 1)
-                data[section][key.strip()] = _coerce_scalar(value)
-                current_map_key = None
+                key = key.strip()
+                if value.strip() == "":
+                    current_map_key = key
+                    data[section][current_map_key] = []
+                else:
+                    data[section][key] = _coerce_scalar(value)
+                    current_map_key = None
             elif indent >= 4 and stripped.startswith("- ") and current_map_key:
+                if not isinstance(data[section][current_map_key], list):
+                    data[section][current_map_key] = []
                 data[section][current_map_key].append(_coerce_scalar(stripped[2:]))
+            elif indent >= 4 and ":" in stripped and current_map_key:
+                key, value = stripped.split(":", 1)
+                if not isinstance(data[section][current_map_key], dict):
+                    data[section][current_map_key] = {}
+                data[section][current_map_key][key.strip()] = _coerce_scalar(value)
     return data
 
 
@@ -88,12 +111,15 @@ def load_config(path: Path | None = None) -> AppConfig:
             site_type=item.get("site_type", "general"),
             language=item.get("language", "en"),
             priority=int(item.get("priority", 3)),
+            include_url_keywords=item.get("include_url_keywords") or [],
+            exclude_url_keywords=item.get("exclude_url_keywords") or [],
         )
         for item in raw.get("sources", [])
         if item.get("domain")
     ]
     settings = Settings(**{**Settings().__dict__, **raw.get("settings", {})})
-    return AppConfig(sources=sources, settings=settings)
+    writing = WritingSettings(**{**WritingSettings().__dict__, **raw.get("writing", {})})
+    return AppConfig(sources=sources, settings=settings, writing=writing)
 
 
 def load_rules(path: Path | None = None) -> dict[str, list[str]]:
@@ -107,4 +133,3 @@ def init_config_files() -> None:
     seeds = PROJECT_ROOT / "config" / "seeds.yaml"
     if not seeds.exists():
         shutil.copyfile(example, seeds)
-
