@@ -1,23 +1,242 @@
 sources:
-  - name: Example Game Site
-    domain: example.com
-    sitemap_url: https://example.com/sitemap.xml
-    site_type: general
+  - name: Pro Game Guides
+    domain: progameguides.com
+    site_type: codes
     language: en
-    priority: 3
+    priority: 5
 
-  - name: Example Roblox Codes Site
-    domain: example-codes.com
-    sitemap_url:
+  - name: Try Hard Guides
+    domain: tryhardguides.com
+    site_type: codes
+    language: en
+    priority: 5
+
+  - name: Pocket Tactics
+    domain: pockettactics.com
     site_type: codes
     language: en
     priority: 4
+
+  - name: Droid Gamers
+    domain: droidgamers.com
+    site_type: codes
+    language: en
+    priority: 4
+
+  - name: Game Rant
+    domain: gamerant.com
+    site_type: codes
+    language: en
+    priority: 4
+
+  - name: GGRecon
+    domain: ggrecon.com
+    site_type: codes
+    language: en
+    priority: 3
+
+  - name: DualShockers
+    domain: dualshockers.com
+    site_type: codes
+    language: en
+    priority: 3
+
+  - name: The Nerd Stash
+    domain: thenerdstash.com
+    site_type: codes
+    language: en
+    priority: 3
+
+  - name: Destructoid
+    domain: destructoid.com
+    site_type: codes
+    language: en
+    priority: 3
+
+  - name: Prima Games
+    domain: primagames.com
+    site_type: codes
+    language: en
+    priority: 3
+
+  - name: IGN Wiki Guides
+    domain: ign.com
+    site_type: guide
+    language: en
+    priority: 5
+
+  - name: Game8
+    domain: game8.co
+    site_type: guide
+    language: en
+    priority: 5
+
+  - name: GamesRadar
+    domain: gamesradar.com
+    site_type: guide
+    language: en
+    priority: 4
+
+  - name: VG247
+    domain: vg247.com
+    site_type: guide
+    language: en
+    priority: 3
+
+  - name: PCGamesN
+    domain: pcgamesn.com
+    site_type: guide
+    language: en
+    priority: 3
+
+  - name: PC Gamer
+    domain: pcgamer.com
+    site_type: guide
+    language: en
+    priority: 3
+
+  - name: Eurogamer
+    domain: eurogamer.net
+    site_type: guide
+    language: en
+    priority: 3
+
+  - name: Polygon
+    domain: polygon.com
+    site_type: guide
+    language: en
+    priority: 3
+
+  - name: Kotaku
+    domain: kotaku.com
+    site_type: guide
+    language: en
+    priority: 3
+
+  - name: TheGamer
+    domain: thegamer.com
+    site_type: guide
+    language: en
+    priority: 3
+
+  - name: Roblox Fandom Wiki
+    domain: roblox.fandom.com
+    site_type: wiki
+    language: en
+    priority: 4
+
+  - name: Gaming Fandom Hub
+    domain: gaming.fandom.com
+    site_type: wiki
+    language: en
+    priority: 4
+
+  - name: Blox Fruits Wiki (Miraheze)
+    domain: blox-fruits.miraheze.org
+    site_type: wiki
+    language: en
+    priority: 3
+
+  - name: Fisch Wiki (Miraheze)
+    domain: fisch.miraheze.org
+    site_type: wiki
+    language: en
+    priority: 3
+
+  - name: All Star Tower Defense Wiki (Miraheze)
+    domain: all-star-tower-defense.miraheze.org
+    site_type: wiki
+    language: en
+    priority: 2
+
+  - name: Tower Defense Simulator Wiki (Miraheze)
+    domain: tower-defense-simulator.miraheze.org
+    site_type: wiki
+    language: en
+    priority: 2
+
+  - name: Anime Adventures Wiki (Miraheze)
+    domain: anime-adventures.miraheze.org
+    site_type: wiki
+    language: en
+    priority: 2
+
+  - name: Bee Swarm Simulator Wiki (Miraheze)
+    domain: bee-swarm-simulator.miraheze.org
+    site_type: wiki
+    language: en
+    priority: 2
+
+  - name: Terraria Wiki (wiki.gg)
+    domain: terraria.wiki.gg
+    site_type: wiki
+    language: en
+    priority: 3
+
+  - name: Terraria Calamity Mod Wiki (wiki.gg)
+    domain: calamitymod.wiki.gg
+    site_type: wiki
+    language: en
+    priority: 2
+
+  - name: Stardew Valley Wiki (wiki.gg)
+    domain: stardewvalley.wiki.gg
+    site_type: wiki
+    language: en
+    priority: 2
+
+  - name: Deep Rock Galactic Wiki (wiki.gg)
+    domain: deeprockgalactic.wiki.gg
+    site_type: wiki
+    language: en
+    priority: 2
+
+  - name: Don't Starve Wiki (wiki.gg)
+    domain: dontstarve.wiki.gg
+    site_type: wiki
+    language: en
+    priority: 2
+
+  - name: Beebom Gaming
+    domain: beebom.com
+    site_type: codes
+    language: en
+    priority: 3
+
+  - name: Sportskeeda Gaming
+    domain: sportskeeda.com
+    site_type: codes
+    language: en
+    priority: 3
+
+  - name: Charlie Intel (CoD)
+    domain: charlieintel.com
+    site_type: guide
+    language: en
+    priority: 2
+
+  - name: Dexerto
+    domain: dexerto.com
+    site_type: guide
+    language: en
+    priority: 3
+
+  - name: Steal a Brainrot Guide (mine)
+    domain: stealabrainrotguide.wiki
+    site_type: wiki
+    language: en
+    priority: 1
+
+  - name: Guts and Blackpowder Guide (mine)
+    domain: gutsandblackpowder.wiki
+    site_type: wiki
+    language: en
+    priority: 1
 
 settings:
   request_timeout_seconds: 20
   max_sitemaps_per_source: 50
   max_urls_per_sitemap: 50000
   delay_seconds_per_source: 1
-  user_agent: "GameSitemapRadar/0.1 (+keyword research; respects robots.txt)"
+  user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
   report_window_hours: 72
-
