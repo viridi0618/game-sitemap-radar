@@ -1,0 +1,18 @@
+Roblox Daily Scraper - 2026-07-09
+Total unique games: 151
+By list:
+  Top Trending: 91
+  Top Playing Now: 55
+  Up-and-Coming: 5
+
+Top 10 by playing:
+  Animal Hospital (Anomaly) 🧪              playing=420900 created=2026-05-10 [Top Trending]
+  Brookhaven 🏡RP                           playing=403800 created=2020-04-21 [Top Playing Now]
+  Grow a Garden 2                          playing=367200 created=2026-05-21 [Up-and-Coming]
+  [🍔] Adopt Me!                            playing=305200 created=2017-07-14 [Top Playing Now]
+  +1 Speed Keyboard Escape | Candy & Choco playing=294700 created=2026-01-18 [Top Trending]
+  99 Nights in the Forest 🔦                playing=232600 created=2025-03-04 [Top Playing Now]
+  Murder Mystery 2                         playing=224800 created=2014-01-18 [Top Trending]
+  Blox Fruits                              playing=189200 created=2019-01-16 [Top Trending]
+  Steal a Brainrot                         playing=187800 created=2025-05-16 [Top Playing Now]
+  [🏖️] RIVALS                              playing=151500 created=2024-05-26 [Top Playing Now]

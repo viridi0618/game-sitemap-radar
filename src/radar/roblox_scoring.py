@@ -132,9 +132,11 @@ def _launch_window_score(days: int | None) -> int:
         return 12
     if days <= 60:
         return 15
+    if days <= 90:
+        return 5  # cooling off, downgrade one tier
     if days <= 180:
-        return 8
-    return 2
+        return 3
+    return 0
 
 
 def _rank_movement_score(delta: int | None, is_new_entry: bool) -> int:
