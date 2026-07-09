@@ -15,12 +15,28 @@ sources:
       - how-to
       - values
       - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
     exclude_url_keywords:
       - review
       - hardware
       - movie
+      - movies
       - tv
+      - anime-news
       - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: Example Roblox Codes Site
     domain: example-codes.com
@@ -33,9 +49,11 @@ settings:
   request_timeout_seconds: 20
   max_sitemaps_per_source: 50
   max_urls_per_sitemap: 50000
-  delay_seconds_per_source: 1
+  delay_seconds_per_source: 0.2
   user_agent: "GameSitemapRadar/0.1 (+keyword research; respects robots.txt)"
   report_window_hours: 72
+  max_total_urls_per_run: 300000
+  max_total_sitemaps_per_run: 500
 
 writing:
   default_language: en

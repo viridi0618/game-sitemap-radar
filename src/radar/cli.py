@@ -11,10 +11,12 @@ from pathlib import Path
 from .config import init_config_files, load_config, load_rules
 from .db import (
     add_manual_research_note,
+    bulk_insert_or_update_urls,
     connect,
     finish_run,
     init_db,
     insert_candidate_signal,
+    insert_candidate_signals,
     insert_or_update_url,
     start_run,
     upsert_writing_brief,
@@ -31,11 +33,17 @@ from .fetcher import Fetcher
 from .game_extractor import extract_candidate_game
 from .report import build_candidates, write_reports
 from .review import check_draft
+from .roblox_provider import RobloxGameProvider, merge_details, read_roblox_chart_csv
+from .roblox_report import store_and_score_roblox_snapshot, write_roblox_report
 from .robots import discover_sitemap_urls
 from .sitemap_parser import parse_sitemap_xml
 from .url_classifier import classify_page_type
 from .utils import PROJECT_ROOT, ensure_dirs
+from .fusion_report import write_fusion_report
 from .writing_planner import candidate_from_db_row, create_writing_plan, slugify_game
+
+
+LAST_CRAWL_STATS: dict | None = None
 
 
 def cmd_init(_args) -> int:
@@ -52,16 +60,16 @@ def cmd_discover(_args) -> int:
     config = load_config()
     with connect() as conn:
         init_db(conn)
-        fetcher = Fetcher(config.settings.user_agent, config.settings.request_timeout_seconds)
-        for index, source in enumerate(config.sources, start=1):
-            print(f"[discover {index}/{len(config.sources)}] {source.domain}", flush=True)
-            source_id = upsert_source(conn, source)
-            sitemap_urls, robots_result = discover_sitemap_urls(source.domain, fetcher, source.sitemap_url)
-            if robots_result and robots_result.error:
-                upsert_sitemap(conn, source_id, robots_result.url, "robots", robots_result.status_code, robots_result.error)
-            for url in sitemap_urls[: config.settings.max_sitemaps_per_source]:
-                upsert_sitemap(conn, source_id, url)
-            time.sleep(config.settings.delay_seconds_per_source)
+        with Fetcher(config.settings.user_agent, config.settings.request_timeout_seconds) as fetcher:
+            for index, source in enumerate(config.sources, start=1):
+                print(f"[discover {index}/{len(config.sources)}] {source.domain}", flush=True)
+                source_id = upsert_source(conn, source)
+                sitemap_urls, robots_result = discover_sitemap_urls(source.domain, fetcher, source.sitemap_url)
+                if robots_result and robots_result.error:
+                    upsert_sitemap(conn, source_id, robots_result.url, "robots", robots_result.status_code, robots_result.error)
+                for url in sitemap_urls[: config.settings.max_sitemaps_per_source]:
+                    upsert_sitemap(conn, source_id, url)
+                time.sleep(config.settings.delay_seconds_per_source)
     print(f"Discovered sitemap candidates for {len(config.sources)} sources.")
     return 0
 
@@ -77,7 +85,7 @@ def _url_allowed(url: str, source_row) -> bool:
     return True
 
 
-def _crawl_source(conn, source_row, settings, rules, fetcher) -> tuple[int, int, int]:
+def _crawl_source(conn, source_row, settings, rules, fetcher, run_state: dict) -> tuple[int, int, int, int, int, bool]:
     sitemap_rows = conn.execute(
         "SELECT sitemap_url FROM sitemaps WHERE source_id=? AND sitemap_type != 'robots'",
         (source_row["id"],),
@@ -88,8 +96,13 @@ def _crawl_source(conn, source_row, settings, rules, fetcher) -> tuple[int, int,
     url_count = 0
     new_url_count = 0
     error_count = 0
+    filtered_count = 0
+    cap_hit = False
 
     while queue and sitemap_count < settings.max_sitemaps_per_source:
+        if run_state["sitemaps"] >= settings.max_total_sitemaps_per_run or run_state["urls"] >= settings.max_total_urls_per_run:
+            cap_hit = True
+            break
         sitemap_url = queue.pop(0)
         if sitemap_url in seen_sitemaps:
             continue
@@ -107,34 +120,45 @@ def _crawl_source(conn, source_row, settings, rules, fetcher) -> tuple[int, int,
             error_count += 1
             continue
         sitemap_count += 1
+        run_state["sitemaps"] += 1
         upsert_sitemap(conn, source_row["id"], sitemap_url, sitemap_type, result.status_code, None)
         if sitemap_type == "index":
             for entry in entries:
-                if len(seen_sitemaps) + len(queue) < settings.max_sitemaps_per_source:
+                if len(seen_sitemaps) + len(queue) < settings.max_sitemaps_per_source and run_state["sitemaps"] + len(queue) < settings.max_total_sitemaps_per_run:
                     queue.append(entry.loc)
         elif sitemap_type == "urlset":
+            rows = []
             for entry in entries[: settings.max_urls_per_sitemap]:
+                if run_state["urls"] + len(rows) >= settings.max_total_urls_per_run:
+                    cap_hit = True
+                    break
                 if not _url_allowed(entry.loc, source_row):
+                    filtered_count += 1
                     continue
                 page_type = classify_page_type(entry.loc, rules)
                 candidate = extract_candidate_game(entry.loc)
-                is_new = insert_or_update_url(
-                    conn,
-                    source_row["id"],
-                    entry.loc,
-                    entry.lastmod,
-                    page_type,
-                    candidate.display,
-                    candidate.normalized,
-                    candidate.confidence,
+                rows.append(
+                    {
+                        "source_id": source_row["id"],
+                        "url": entry.loc,
+                        "lastmod": entry.lastmod,
+                        "page_type": page_type,
+                        "candidate_game": candidate.display,
+                        "normalized_candidate_game": candidate.normalized,
+                        "name_confidence": candidate.confidence,
+                    }
                 )
-                url_count += 1
-                if is_new:
-                    new_url_count += 1
-    return sitemap_count, url_count, new_url_count + 0, error_count
+            processed, new_count = bulk_insert_or_update_urls(conn, rows)
+            url_count += processed
+            new_url_count += new_count
+            run_state["urls"] += processed
+            if cap_hit:
+                break
+    return sitemap_count, url_count, new_url_count, error_count, filtered_count, cap_hit
 
 
 def cmd_crawl(_args) -> int:
+    global LAST_CRAWL_STATS
     config = load_config()
     rules = load_rules()
     with connect() as conn:
@@ -143,22 +167,48 @@ def cmd_crawl(_args) -> int:
             upsert_source(conn, source)
         sources = conn.execute("SELECT * FROM sources").fetchall()
         run_id = start_run(conn, len(sources))
-        totals = [0, 0, 0, 0]
-        fetcher = Fetcher(config.settings.user_agent, config.settings.request_timeout_seconds)
-        for index, source_row in enumerate(sources, start=1):
-            print(f"[crawl {index}/{len(sources)}] {source_row['domain']}", flush=True)
-            sitemap_count, url_count, new_url_count, error_count = _crawl_source(conn, source_row, config.settings, rules, fetcher)
-            print(
-                f"  done: {sitemap_count} sitemaps, {url_count} URLs, {new_url_count} new, {error_count} errors",
-                flush=True,
-            )
-            totals[0] += sitemap_count
-            totals[1] += url_count
-            totals[2] += new_url_count
-            totals[3] += error_count
-            time.sleep(config.settings.delay_seconds_per_source)
+        totals = [0, 0, 0, 0, 0]
+        run_state = {"sitemaps": 0, "urls": 0}
+        started = time.perf_counter()
+        cap_hit = False
+        with Fetcher(config.settings.user_agent, config.settings.request_timeout_seconds) as fetcher:
+            for index, source_row in enumerate(sources, start=1):
+                source_started = time.perf_counter()
+                print(f"[crawl {index}/{len(sources)}] {source_row['domain']}", flush=True)
+                sitemap_count, url_count, new_url_count, error_count, filtered_count, source_cap_hit = _crawl_source(
+                    conn, source_row, config.settings, rules, fetcher, run_state
+                )
+                elapsed = time.perf_counter() - source_started
+                print(
+                    f"  done: {sitemap_count} sitemaps, {url_count} URLs, {new_url_count} new, {error_count} errors, {filtered_count} filtered, {elapsed:.2f}s",
+                    flush=True,
+                )
+                totals[0] += sitemap_count
+                totals[1] += url_count
+                totals[2] += new_url_count
+                totals[3] += error_count
+                totals[4] += filtered_count
+                cap_hit = cap_hit or source_cap_hit
+                if cap_hit:
+                    print(
+                        f"  stopping gracefully: crawl cap hit ({run_state['sitemaps']} sitemaps, {run_state['urls']} URLs).",
+                        flush=True,
+                    )
+                    break
+                time.sleep(config.settings.delay_seconds_per_source)
         finish_run(conn, run_id, totals[0], totals[1], totals[2], totals[3])
+    elapsed = time.perf_counter() - started
+    urls_per_second = totals[1] / elapsed if elapsed else 0
     print(f"Crawled {totals[0]} sitemaps, saw {totals[1]} URLs, found {totals[2]} new URLs.")
+    print(f"Total elapsed: {elapsed:.2f}s; average URLs/second: {urls_per_second:.2f}; total errors: {totals[3]}; filtered URLs: {totals[4]}.")
+    if cap_hit:
+        print("Crawl cap was hit; increase max_total_urls_per_run or max_total_sitemaps_per_run if needed.")
+    LAST_CRAWL_STATS = {
+        "elapsed_seconds": elapsed,
+        "urls_per_second": urls_per_second,
+        "error_count": totals[3],
+        "filtered_url_count": totals[4],
+    }
     return 0
 
 
@@ -168,10 +218,9 @@ def cmd_report(_args) -> int:
         init_db(conn)
         run = conn.execute("SELECT id FROM runs ORDER BY id DESC LIMIT 1").fetchone()
         run_id = int(run["id"]) if run else None
-        md_path, csv_path, candidates = write_reports(conn, config.settings.report_window_hours, run_id)
+        md_path, csv_path, candidates = write_reports(conn, config.settings.report_window_hours, run_id, LAST_CRAWL_STATS)
         if run_id:
-            for candidate in candidates:
-                insert_candidate_signal(conn, run_id, candidate)
+            insert_candidate_signals(conn, run_id, candidates)
     print(f"Wrote report: {md_path}")
     print(f"Wrote CSV: {csv_path}")
     return 0
@@ -374,6 +423,60 @@ def cmd_check_drafts(args) -> int:
     return 1 if any_errors else 0
 
 
+def cmd_roblox_snapshot(_args) -> int:
+    config = load_config()
+    with connect() as conn:
+        init_db(conn)
+        run_id = start_run(conn, 1)
+        with RobloxGameProvider(config.settings.user_agent, config.settings.request_timeout_seconds) as provider:
+            games = provider.fetch_chart_games(limit=200)
+            if not games:
+                finish_run(conn, run_id, 0, 0, 0, 1)
+                print(f"Roblox live chart fetch failed: {provider.last_error or 'unknown error'}")
+                print("Use fallback: python -m radar.cli import-roblox-chart --csv path/to/roblox-chart.csv")
+                return 0
+            details = provider.fetch_game_details([game.universe_id for game in games])
+            games = merge_details(games, details)
+        signals = store_and_score_roblox_snapshot(conn, run_id, games, "roblox-live")
+        md_path, csv_path, _signals = write_roblox_report(conn, signals)
+        finish_run(conn, run_id, 0, len(games), len(signals), 0)
+    print(f"Wrote Roblox report: {md_path}")
+    print(f"Wrote Roblox CSV: {csv_path}")
+    return 0
+
+
+def cmd_roblox_report(_args) -> int:
+    with connect() as conn:
+        init_db(conn)
+        md_path, csv_path, _signals = write_roblox_report(conn)
+    print(f"Wrote Roblox report: {md_path}")
+    print(f"Wrote Roblox CSV: {csv_path}")
+    return 0
+
+
+def cmd_import_roblox_chart(args) -> int:
+    games = read_roblox_chart_csv(Path(args.csv))
+    with connect() as conn:
+        init_db(conn)
+        run_id = start_run(conn, 1)
+        signals = store_and_score_roblox_snapshot(conn, run_id, games, "manual-csv")
+        md_path, csv_path, _signals = write_roblox_report(conn, signals)
+        finish_run(conn, run_id, 0, len(games), len(signals), 0)
+    print(f"Imported {len(games)} Roblox chart rows.")
+    print(f"Wrote Roblox report: {md_path}")
+    print(f"Wrote Roblox CSV: {csv_path}")
+    return 0
+
+
+def cmd_fusion_report(_args) -> int:
+    with connect() as conn:
+        init_db(conn)
+        md_path, csv_path, _candidates = write_fusion_report(conn)
+    print(f"Wrote fusion report: {md_path}")
+    print(f"Wrote fusion CSV: {csv_path}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Game Sitemap Radar")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -384,9 +487,15 @@ def build_parser() -> argparse.ArgumentParser:
         "report": cmd_report,
         "run": cmd_run,
         "export": cmd_export,
+        "roblox-snapshot": cmd_roblox_snapshot,
+        "roblox-report": cmd_roblox_report,
+        "fusion-report": cmd_fusion_report,
     }.items():
         cmd = sub.add_parser(name)
         cmd.set_defaults(func=func)
+    import_roblox = sub.add_parser("import-roblox-chart")
+    import_roblox.add_argument("--csv", required=True)
+    import_roblox.set_defaults(func=cmd_import_roblox_chart)
     plan = sub.add_parser("plan-writing")
     plan.add_argument("--candidate", required=True)
     plan.add_argument("--force", action="store_true")

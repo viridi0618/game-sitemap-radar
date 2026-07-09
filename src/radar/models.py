@@ -18,9 +18,11 @@ class Settings:
     request_timeout_seconds: int = 20
     max_sitemaps_per_source: int = 50
     max_urls_per_sitemap: int = 50000
-    delay_seconds_per_source: float = 1
+    delay_seconds_per_source: float = 0.2
     user_agent: str = "GameSitemapRadar/0.1 (+keyword research; respects robots.txt)"
     report_window_hours: int = 72
+    max_total_urls_per_run: int = 300000
+    max_total_sitemaps_per_run: int = 500
 
 
 @dataclass

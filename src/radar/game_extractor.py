@@ -39,9 +39,29 @@ STOP_WORDS = {
     "working",
     "active",
     "redeem",
+    "working",
+    "post",
+    "page",
+    "category",
+    "tag",
+    "fast",
 }
 
 ANCHORS = {"in", "for"}
+INTENT_WORDS = {
+    "codes",
+    "code",
+    "wiki",
+    "guide",
+    "guides",
+    "tier",
+    "tierlist",
+    "best",
+    "how",
+    "to",
+    "games",
+    "game",
+}
 
 
 @dataclass
@@ -71,7 +91,7 @@ def normalize_game_name(name: str) -> str:
 
 def extract_candidate_game(url: str) -> CandidateName:
     segments = _slug_segments(url)
-    slug = max(segments, key=len) if segments else urlparse(url).netloc
+    slug = _best_slug_segment(segments) if segments else urlparse(url).netloc
     toks = _tokens(slug)
 
     for anchor in ANCHORS:
@@ -92,4 +112,36 @@ def extract_candidate_game(url: str) -> CandidateName:
     if any(tok in {"post", "page", "category", "tag"} for tok in toks):
         confidence = "low"
     return CandidateName(display or "Unknown", normalized or "unknown", confidence)
+
+
+def _best_slug_segment(segments: list[str]) -> str:
+    scored = []
+    tokenized = [_tokens(segment) for segment in segments]
+    for index, toks in enumerate(tokenized):
+        if not toks:
+            continue
+        filtered = [tok for tok in toks if tok not in STOP_WORDS]
+        stop_ratio = 1 - (len(filtered) / len(toks))
+        score = len(filtered) * 4
+        if len(filtered) >= 2:
+            score += 12
+        if any(tok.isdigit() for tok in filtered):
+            score += 3
+        if stop_ratio >= 0.75:
+            score -= 16
+        if all(tok in STOP_WORDS for tok in toks):
+            score -= 20
+        neighbors = []
+        if index > 0:
+            neighbors.extend(tokenized[index - 1])
+        if index + 1 < len(tokenized):
+            neighbors.extend(tokenized[index + 1])
+        if set(neighbors) & INTENT_WORDS:
+            score += 8
+        if set(toks) & INTENT_WORDS and filtered:
+            score += 2
+        scored.append((score, len(filtered), index, segments[index]))
+    if not scored:
+        return max(segments, key=len)
+    return max(scored, key=lambda item: (item[0], item[1], item[2]))[3]
 

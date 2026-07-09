@@ -1,123 +1,783 @@
-sources:
+﻿sources:
   - name: Pro Game Guides
     domain: progameguides.com
     site_type: codes
     language: en
     priority: 5
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: Try Hard Guides
     domain: tryhardguides.com
     site_type: codes
     language: en
     priority: 5
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: Pocket Tactics
     domain: pockettactics.com
     site_type: codes
     language: en
     priority: 4
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: Droid Gamers
     domain: droidgamers.com
     site_type: codes
     language: en
     priority: 4
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: Game Rant
     domain: gamerant.com
     site_type: codes
     language: en
     priority: 4
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: GGRecon
     domain: ggrecon.com
     site_type: codes
     language: en
     priority: 3
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: DualShockers
     domain: dualshockers.com
     site_type: codes
     language: en
     priority: 3
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: The Nerd Stash
     domain: thenerdstash.com
     site_type: codes
     language: en
     priority: 3
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: Destructoid
     domain: destructoid.com
     site_type: codes
     language: en
     priority: 3
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: Prima Games
     domain: primagames.com
     site_type: codes
     language: en
     priority: 3
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: IGN Wiki Guides
     domain: ign.com
     site_type: guide
     language: en
     priority: 5
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: Game8
     domain: game8.co
     site_type: guide
     language: en
     priority: 5
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: GamesRadar
     domain: gamesradar.com
     site_type: guide
     language: en
     priority: 4
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: VG247
     domain: vg247.com
     site_type: guide
     language: en
     priority: 3
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: PCGamesN
     domain: pcgamesn.com
     site_type: guide
     language: en
     priority: 3
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: PC Gamer
     domain: pcgamer.com
     site_type: guide
     language: en
     priority: 3
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: Eurogamer
     domain: eurogamer.net
     site_type: guide
     language: en
     priority: 3
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: Polygon
     domain: polygon.com
     site_type: guide
     language: en
     priority: 3
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: Kotaku
     domain: kotaku.com
     site_type: guide
     language: en
     priority: 3
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: TheGamer
     domain: thegamer.com
     site_type: guide
     language: en
     priority: 3
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: Roblox Fandom Wiki
     domain: roblox.fandom.com
@@ -202,24 +862,156 @@ sources:
     site_type: codes
     language: en
     priority: 3
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: Sportskeeda Gaming
     domain: sportskeeda.com
     site_type: codes
     language: en
     priority: 3
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: Charlie Intel (CoD)
     domain: charlieintel.com
     site_type: guide
     language: en
     priority: 2
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: Dexerto
     domain: dexerto.com
     site_type: guide
     language: en
     priority: 3
+    include_url_keywords:
+      - roblox
+      - codes
+      - wiki
+      - guide
+      - tier-list
+      - tierlist
+      - best
+      - how-to
+      - values
+      - calculator
+      - traits
+      - mutations
+      - items
+      - pets
+      - units
+      - rebirth
+      - update
+    exclude_url_keywords:
+      - review
+      - hardware
+      - movie
+      - movies
+      - tv
+      - anime-news
+      - deals
+      - trailer
+      - opinion
+      - patch-notes
+      - fortnite
+      - minecraft
+      - call-of-duty
+      - warzone
 
   - name: Steal a Brainrot Guide (mine)
     domain: stealabrainrotguide.wiki
@@ -237,9 +1029,11 @@ settings:
   request_timeout_seconds: 8
   max_sitemaps_per_source: 50
   max_urls_per_sitemap: 50000
-  delay_seconds_per_source: 1
+  delay_seconds_per_source: 0.2
   user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
   report_window_hours: 72
+  max_total_urls_per_run: 300000
+  max_total_sitemaps_per_run: 500
 
 writing:
   default_language: en

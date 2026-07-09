@@ -80,7 +80,10 @@ def init_db(conn: sqlite3.Connection) -> None:
           score INTEGER,
           first_seen_at TEXT,
           latest_seen_at TEXT,
-          sample_urls TEXT
+          sample_urls TEXT,
+          matrix_score INTEGER,
+          suggested_site_size TEXT,
+          matrix_reasoning TEXT
         );
         CREATE TABLE IF NOT EXISTS writing_projects (
           id INTEGER PRIMARY KEY,
@@ -132,10 +135,67 @@ def init_db(conn: sqlite3.Connection) -> None:
           note TEXT,
           created_at TEXT
         );
+        CREATE TABLE IF NOT EXISTS roblox_games (
+          id INTEGER PRIMARY KEY,
+          universe_id INTEGER UNIQUE,
+          root_place_id INTEGER,
+          name TEXT,
+          normalized_name TEXT,
+          url TEXT,
+          created TEXT,
+          updated TEXT,
+          first_seen_at TEXT,
+          last_seen_at TEXT
+        );
+        CREATE TABLE IF NOT EXISTS roblox_snapshots (
+          id INTEGER PRIMARY KEY,
+          run_id INTEGER,
+          captured_at TEXT,
+          source TEXT,
+          rank INTEGER,
+          universe_id INTEGER,
+          name TEXT,
+          playing INTEGER,
+          visits INTEGER,
+          favorited_count INTEGER,
+          created TEXT,
+          updated TEXT,
+          url TEXT
+        );
+        CREATE TABLE IF NOT EXISTS roblox_candidate_signals (
+          id INTEGER PRIMARY KEY,
+          run_id INTEGER,
+          universe_id INTEGER,
+          name TEXT,
+          normalized_name TEXT,
+          current_rank INTEGER,
+          previous_rank INTEGER,
+          rank_delta INTEGER,
+          playing INTEGER,
+          previous_playing INTEGER,
+          playing_delta INTEGER,
+          playing_growth_rate REAL,
+          visits INTEGER,
+          previous_visits INTEGER,
+          visits_delta INTEGER,
+          visits_growth_rate REAL,
+          favorited_count INTEGER,
+          previous_favorited_count INTEGER,
+          favorite_delta INTEGER,
+          days_since_created INTEGER,
+          is_new_entry INTEGER,
+          score INTEGER,
+          label TEXT,
+          reasoning TEXT,
+          created_at TEXT
+        );
         """
     )
     _ensure_column(conn, "sources", "include_url_keywords", "TEXT")
     _ensure_column(conn, "sources", "exclude_url_keywords", "TEXT")
+    _ensure_column(conn, "candidate_signals", "matrix_score", "INTEGER")
+    _ensure_column(conn, "candidate_signals", "suggested_site_size", "TEXT")
+    _ensure_column(conn, "candidate_signals", "matrix_reasoning", "TEXT")
     conn.commit()
 
 
@@ -237,6 +297,54 @@ def insert_or_update_url(
     return True
 
 
+def bulk_insert_or_update_urls(conn: sqlite3.Connection, rows: list[dict]) -> tuple[int, int]:
+    if not rows:
+        return 0, 0
+    now = utc_now()
+    prepared = []
+    hashes = []
+    for row in rows:
+        digest = url_hash(row["url"])
+        hashes.append(digest)
+        prepared.append(
+            (
+                row["source_id"],
+                row["url"],
+                digest,
+                row.get("lastmod"),
+                now,
+                now,
+                row["page_type"],
+                row["candidate_game"],
+                row["normalized_candidate_game"],
+                row["name_confidence"],
+            )
+        )
+    existing = set()
+    for start in range(0, len(hashes), 900):
+        chunk = hashes[start : start + 900]
+        placeholders = ",".join("?" for _ in chunk)
+        query = f"SELECT url_hash FROM urls WHERE url_hash IN ({placeholders})"
+        existing.update(row["url_hash"] for row in conn.execute(query, chunk).fetchall())
+    conn.executemany(
+        """
+        INSERT INTO urls(source_id, url, url_hash, lastmod, first_seen_at, last_seen_at,
+                         page_type, candidate_game, normalized_candidate_game, name_confidence)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(url_hash) DO UPDATE SET
+          last_seen_at=excluded.last_seen_at,
+          lastmod=excluded.lastmod,
+          page_type=excluded.page_type,
+          candidate_game=excluded.candidate_game,
+          normalized_candidate_game=excluded.normalized_candidate_game,
+          name_confidence=excluded.name_confidence
+        """,
+        prepared,
+    )
+    conn.commit()
+    return len(rows), sum(1 for digest in hashes if digest not in existing)
+
+
 def start_run(conn: sqlite3.Connection, source_count: int) -> int:
     cur = conn.execute(
         "INSERT INTO runs(started_at, source_count, sitemap_count, url_count, new_url_count, error_count) VALUES (?, ?, 0, 0, 0, 0)",
@@ -261,8 +369,9 @@ def insert_candidate_signal(conn: sqlite3.Connection, run_id: int, candidate: di
     conn.execute(
         """
         INSERT INTO candidate_signals(run_id, normalized_candidate_game, display_game_name, new_url_count,
-          source_count, page_types, score, first_seen_at, latest_seen_at, sample_urls)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          source_count, page_types, score, first_seen_at, latest_seen_at, sample_urls,
+          matrix_score, suggested_site_size, matrix_reasoning)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             run_id,
@@ -275,6 +384,9 @@ def insert_candidate_signal(conn: sqlite3.Connection, run_id: int, candidate: di
             candidate["first_seen_at"],
             candidate["latest_seen_at"],
             json.dumps(candidate["sample_urls"]),
+            candidate.get("matrix_score"),
+            candidate.get("suggested_site_size"),
+            candidate.get("matrix_reasoning"),
         ),
     )
     conn.commit()
@@ -382,5 +494,155 @@ def add_manual_research_note(conn: sqlite3.Connection, project_id: int, source_n
     conn.execute(
         "INSERT INTO manual_research_notes(project_id, source_name, source_url, note, created_at) VALUES (?, ?, ?, ?, ?)",
         (project_id, source_name, source_url, note, utc_now()),
+    )
+    conn.commit()
+
+
+def insert_candidate_signals(conn: sqlite3.Connection, run_id: int, candidates: list[dict]) -> None:
+    if not candidates:
+        return
+    conn.executemany(
+        """
+        INSERT INTO candidate_signals(run_id, normalized_candidate_game, display_game_name, new_url_count,
+          source_count, page_types, score, first_seen_at, latest_seen_at, sample_urls,
+          matrix_score, suggested_site_size, matrix_reasoning)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        [
+            (
+                run_id,
+                candidate["normalized_candidate_game"],
+                candidate["display_game_name"],
+                candidate["new_url_count"],
+                candidate["source_count"],
+                json.dumps(candidate["page_types"]),
+                candidate["score"],
+                candidate["first_seen_at"],
+                candidate["latest_seen_at"],
+                json.dumps(candidate["sample_urls"]),
+                candidate.get("matrix_score"),
+                candidate.get("suggested_site_size"),
+                candidate.get("matrix_reasoning"),
+            )
+            for candidate in candidates
+        ],
+    )
+    conn.commit()
+
+
+def upsert_roblox_games(conn: sqlite3.Connection, games: list) -> None:
+    now = utc_now()
+    for game in games:
+        existing = conn.execute("SELECT first_seen_at FROM roblox_games WHERE universe_id=?", (game.universe_id,)).fetchone()
+        first_seen_at = existing["first_seen_at"] if existing else now
+        conn.execute(
+            """
+            INSERT INTO roblox_games(universe_id, root_place_id, name, normalized_name, url, created, updated, first_seen_at, last_seen_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(universe_id) DO UPDATE SET
+              root_place_id=excluded.root_place_id,
+              name=excluded.name,
+              normalized_name=excluded.normalized_name,
+              url=excluded.url,
+              created=excluded.created,
+              updated=excluded.updated,
+              last_seen_at=excluded.last_seen_at
+            """,
+            (
+                game.universe_id,
+                game.root_place_id,
+                game.name,
+                game.normalized_name,
+                game.url,
+                game.created,
+                game.updated,
+                first_seen_at,
+                now,
+            ),
+        )
+    conn.commit()
+
+
+def insert_roblox_snapshots(conn: sqlite3.Connection, run_id: int, games: list, source: str, captured_at: str | None = None) -> None:
+    captured_at = captured_at or utc_now()
+    conn.executemany(
+        """
+        INSERT INTO roblox_snapshots(run_id, captured_at, source, rank, universe_id, name, playing, visits, favorited_count, created, updated, url)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        [
+            (
+                run_id,
+                captured_at,
+                source,
+                game.rank,
+                game.universe_id,
+                game.name,
+                game.playing,
+                game.visits,
+                game.favorited_count,
+                game.created,
+                game.updated,
+                game.url,
+            )
+            for game in games
+        ],
+    )
+    conn.commit()
+
+
+def latest_previous_roblox_snapshots(conn: sqlite3.Connection, run_id: int) -> dict[int, sqlite3.Row]:
+    rows = conn.execute(
+        """
+        SELECT *
+        FROM roblox_snapshots
+        WHERE run_id = (
+          SELECT MAX(run_id) FROM roblox_snapshots WHERE run_id != ?
+        )
+        """,
+        (run_id,),
+    ).fetchall()
+    return {int(row["universe_id"]): row for row in rows}
+
+
+def insert_roblox_candidate_signals(conn: sqlite3.Connection, run_id: int, signals: list[dict]) -> None:
+    now = utc_now()
+    conn.executemany(
+        """
+        INSERT INTO roblox_candidate_signals(run_id, universe_id, name, normalized_name, current_rank, previous_rank,
+          rank_delta, playing, previous_playing, playing_delta, playing_growth_rate, visits, previous_visits,
+          visits_delta, visits_growth_rate, favorited_count, previous_favorited_count, favorite_delta,
+          days_since_created, is_new_entry, score, label, reasoning, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        [
+            (
+                run_id,
+                signal["universe_id"],
+                signal["name"],
+                signal["normalized_name"],
+                signal["current_rank"],
+                signal.get("previous_rank"),
+                signal.get("rank_delta"),
+                signal["playing"],
+                signal.get("previous_playing"),
+                signal.get("playing_delta"),
+                signal.get("playing_growth_rate"),
+                signal["visits"],
+                signal.get("previous_visits"),
+                signal.get("visits_delta"),
+                signal.get("visits_growth_rate"),
+                signal["favorited_count"],
+                signal.get("previous_favorited_count"),
+                signal.get("favorite_delta"),
+                signal.get("days_since_created"),
+                1 if signal.get("is_new_entry") else 0,
+                signal["score"],
+                signal["label"],
+                signal["reasoning"],
+                now,
+            )
+            for signal in signals
+        ],
     )
     conn.commit()

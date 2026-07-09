@@ -6,6 +6,7 @@ from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+from .matrix import calculate_matrix_score
 from .scoring import label_for_score, score_candidate
 from .utils import PROJECT_ROOT, ensure_dirs, parse_dt, utc_now
 from .writing_planner import create_writing_plan
@@ -48,6 +49,7 @@ def build_candidates(conn, window_hours: int, run_id: int | None = None) -> list
             first_seen_at=first_seen,
             name_confidence=confidence,
         )
+        matrix = calculate_matrix_score(page_types, len(sources), confidence)
         candidates.append(
             {
                 "normalized_candidate_game": normalized,
@@ -60,13 +62,14 @@ def build_candidates(conn, window_hours: int, run_id: int | None = None) -> list
                 "first_seen_at": first_seen,
                 "latest_seen_at": latest_seen,
                 "sample_urls": [row["url"] for row in items[:5]],
+                **matrix,
             }
         )
     candidates.sort(key=lambda item: (-item["score"], -item["new_url_count"], item["display_game_name"]))
     return candidates
 
 
-def write_reports(conn, window_hours: int, run_id: int | None = None) -> tuple[Path, Path, list[dict]]:
+def write_reports(conn, window_hours: int, run_id: int | None = None, crawl_stats: dict | None = None) -> tuple[Path, Path, list[dict]]:
     ensure_dirs()
     candidates = build_candidates(conn, window_hours, run_id)
     today = datetime.now().strftime("%Y-%m-%d")
@@ -81,6 +84,7 @@ def write_reports(conn, window_hours: int, run_id: int | None = None) -> tuple[P
         FROM urls JOIN sources ON sources.id = urls.source_id
         WHERE urls.first_seen_at >= ?
         ORDER BY sources.domain, urls.first_seen_at DESC
+        LIMIT 5000
         """,
         ((datetime.now(timezone.utc) - timedelta(hours=window_hours)).isoformat(),),
     ).fetchall()
@@ -94,13 +98,24 @@ def write_reports(conn, window_hours: int, run_id: int | None = None) -> tuple[P
         f"Total URLs seen: {conn.execute('SELECT COUNT(*) AS c FROM urls').fetchone()['c']}",
         f"New URLs: {run['new_url_count'] if run else len(new_by_source)}",
         f"Errors: {run['error_count'] if run else len(errors)}",
-        "",
-        "## Top Candidate Games",
-        "",
     ]
+    if crawl_stats:
+        lines.extend(
+            [
+                f"Crawl elapsed seconds: {crawl_stats.get('elapsed_seconds', 0):.2f}",
+                f"URLs per second: {crawl_stats.get('urls_per_second', 0):.2f}",
+                f"Total fetch errors: {crawl_stats.get('error_count', 0)}",
+                f"Filtered URLs: {crawl_stats.get('filtered_url_count', 0)}",
+            ]
+        )
+    lines.extend(["", "## Top Candidate Games", ""])
     if not candidates:
         lines.append("No new candidate games found in the configured window.")
-    for idx, candidate in enumerate(candidates, start=1):
+    display_candidates = candidates[:100]
+    if len(candidates) > len(display_candidates):
+        lines.append(f"Showing top {len(display_candidates)} of {len(candidates)} candidates. Full candidate list is in the CSV export.")
+        lines.append("")
+    for idx, candidate in enumerate(display_candidates, start=1):
         lines.extend(
             [
                 f"### {idx}. {candidate['display_game_name']}",
@@ -110,6 +125,9 @@ def write_reports(conn, window_hours: int, run_id: int | None = None) -> tuple[P
                 f"New URLs: {candidate['new_url_count']}",
                 f"Sources: {candidate['source_count']}",
                 f"Page types: {', '.join(candidate['page_types'])}",
+                f"Matrix score: {candidate['matrix_score']}",
+                f"Suggested site size: {candidate['suggested_site_size']}",
+                f"Matrix reasoning: {candidate['matrix_reasoning']}",
                 f"First seen: {candidate['first_seen_at']}",
                 f"Latest seen: {candidate['latest_seen_at']}",
                 "",
@@ -187,6 +205,9 @@ def write_reports(conn, window_hours: int, run_id: int | None = None) -> tuple[P
                 "first_seen_at",
                 "latest_seen_at",
                 "sample_urls",
+                "matrix_score",
+                "suggested_site_size",
+                "matrix_reasoning",
             ],
         )
         writer.writeheader()

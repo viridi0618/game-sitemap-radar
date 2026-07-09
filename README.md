@@ -1,6 +1,6 @@
 # Game Sitemap Radar
 
-Game Sitemap Radar is a lightweight CLI tool for keyword discovery and writing preparation. It monitors configured gaming sites' `robots.txt` and sitemap XML files, detects newly seen URLs, extracts likely game names from URL slugs, scores the signals, and writes a daily Markdown report plus CSV export.
+Game Sitemap Radar is a lightweight CLI tool for Roblox discovery, sitemap signal monitoring, fusion reporting, and writing preparation. It can track Roblox chart snapshots as a leading player-growth signal, monitor configured gaming sites' `robots.txt` and sitemap XML files as competitor coverage signals, and combine both into a daily decision report.
 
 The upgraded workflow can also turn a strong candidate into a writing project with page plans, structured briefs, Markdown drafts, quality checks, and task exports.
 
@@ -48,10 +48,20 @@ This executes discovery, sitemap crawling, SQLite storage, scoring, and report g
 Useful commands:
 
 ```bash
+python -m radar.cli roblox-snapshot
+python -m radar.cli import-roblox-chart --csv path/to/roblox-chart.csv
+python -m radar.cli roblox-report
 python -m radar.cli discover
 python -m radar.cli crawl
 python -m radar.cli report
 python -m radar.cli export
+python -m radar.cli fusion-report
+```
+
+`roblox-snapshot` tries live Roblox chart discovery. Roblox endpoints can change, so live fetch failures do not stop the sitemap radar. If live fetching fails, export or prepare a CSV with these columns and use the manual fallback:
+
+```csv
+rank,universe_id,root_place_id,name,playing,visits,favorited_count,created,updated,url
 ```
 
 ## Writing Workflow
@@ -90,19 +100,29 @@ Manual research notes can be stored with:
 python -m radar.cli add-note --project "Ice Tycoon 2" --source-name "Official Roblox" --source-url "..." --note "..."
 ```
 
-Recommended workflow:
+Recommended daily workflow:
 
-1. Add seed sites.
-2. Run radar.
-3. Review candidate report.
-4. Select a candidate.
-5. Generate a writing plan.
-6. Add manual research notes.
-7. Generate briefs.
-8. Generate drafts.
-9. Run draft quality checks.
-10. Human-review and fact-check.
-11. Only then move content into a real site manually.
+1. Run `python -m radar.cli roblox-snapshot`.
+2. Open `outputs/roblox-report-YYYY-MM-DD.md`.
+3. Run sitemap radar with `python -m radar.cli run`.
+4. Run `python -m radar.cli fusion-report`.
+5. Manually verify HOT / WATCH candidates with Google Trends, Google Search suggestions, Semrush KD, recent YouTube videos, and content vacuum checks.
+6. If a candidate passes, run `python -m radar.cli plan-writing --candidate "Game Name" --force`.
+7. Add manual research notes.
+8. Generate briefs.
+9. Generate drafts.
+10. Run draft quality checks.
+11. Human-review and fact-check.
+12. Only then move content into a real site manually.
+
+Signal roles:
+
+- Roblox Watcher = leading player-growth signal.
+- Sitemap Radar = competitor coverage signal.
+- Fusion Report = decision support.
+- Writing Module = draft preparation only.
+
+Broad gaming, codes, and guide sites should use `include_url_keywords` and `exclude_url_keywords` in `config/seeds.yaml`. These filters reduce noise, speed up crawling/report generation, and keep the candidate list focused on Roblox-style opportunities. Wiki-only domains should not be over-filtered because useful reference pages often have varied URL patterns.
 
 ## Output
 
@@ -110,6 +130,10 @@ Reports are written to:
 
 - `outputs/report-YYYY-MM-DD.md`
 - `outputs/candidates-YYYY-MM-DD.csv`
+- `outputs/roblox-report-YYYY-MM-DD.md`
+- `outputs/roblox-candidates-YYYY-MM-DD.csv`
+- `outputs/fusion-report-YYYY-MM-DD.md`
+- `outputs/fusion-candidates-YYYY-MM-DD.csv`
 
 History is stored in `data/radar.sqlite`. A second run updates existing URLs and only marks never-before-seen URLs as new.
 
@@ -123,6 +147,7 @@ Candidates are scored out of 100 using:
 - configured source priority
 - recency
 - game-name extraction confidence
+- candidate matrix potential
 
 Labels:
 
