@@ -1,0 +1,630 @@
+# Devil Hunter Wiki — 完整页面内容（龙虾出品）
+
+## 游戏概要
+
+- 名称：Devil Hunter
+- 平台：Roblox
+- 类型：Action RPG（基于 Chainsaw Man 动漫）
+- 开发商：Devil Hunter May Cry
+- Alpha/测试期：2026年1月起
+- 正式上线：2026年6月20日
+- 当前版本：Patch 0.0.3（2026年7月）
+- Roblox ID: 131079272918660
+- 全时访问：~51,000（Rolimon's）
+
+## 竞品分析
+
+- 3 个独立 wiki 站：devilhuntergame.wiki, devil-hunter.com, devilhunterwiki.org
+- IGN / Eurogamer / Rock Paper Shotgun / Beebom 有 codes 页
+- `devil hunter codes` (14.8K 搜索/KD 35) → 竞品排 52，真空
+- `devil hunter wiki` (1.6K) → 竞品排 2-6
+- `axe devil hunter` (1.9K/KD 26) → 有几个在打
+- `how to get scars devil hunter` (1.6K) → 竞品排 23
+
+---
+
+# 一、首页 /
+
+## Hero Section
+Title: Stop Guessing. Master Devil Hunter.
+Subtitle: Every weapon, every contract, every clan — one wiki built for players, not filler.
+
+## 三个卡片入口
+1. 📋 **Codes** → Free Yen, Rerolls & More
+2. ⚔️ **Weapons** → 33 weapons ranked, S–D
+3. 📜 **Contracts** → All 15 devils, sacrifices & abilities
+
+## Intro Paragraph
+Devil Hunter is a Chainsaw Man-inspired Roblox action RPG where you join Public Safety as a human devil hunter — or embrace the darkness as a fiend. Choose your race, sign contracts with devils, craft powerful weapons, and climb the ranks from trainee to elite hunter. Whether you're farming contracts in Floor Zero or grinding PvP, this wiki covers everything you need.
+
+## Three-column feature blocks
+- 🎮 **Beginner Guide** — Race selection, HQ navigation, first weapon, and your first 30 minutes.
+- 🏆 **Tier Lists** — Best contracts, fiends, weapons, clans, and hybrids ranked S–D.
+- ❓ **FAQ** — Common questions about contracts, fiends, divisions, and game mechanics.
+
+---
+
+# 二、/codes — 兑换码
+
+## Page Title
+Devil Hunter Codes (July 2026) — Working Redeem Codes
+
+## Meta Description
+All active Devil Hunter codes for July 2026. Redeem for free Yen, Clan Rerolls, Fiend Rerolls, and more. Updated daily.
+
+## Hero
+Need free rerolls? These Devil Hunter codes drop Yen, Clan Rerolls, and Fiend Rerolls — no Robux required.
+
+## Active Codes
+
+| Code | Rewards | Notes |
+|---|---|---|
+| PATCH03.2 | Free rewards | First Class Hunter+ required |
+| WEBACK | Free rewards | First Class Hunter+ required |
+| PATCH02 | Free rewards | First Class Hunter+ required |
+| DEVILHUNTERRELEASE | Free rewards | First Class Hunter+ required |
+| ROBLOXSAVEDUS | Free rewards | First Class Hunter+ required |
+| NODELAY | Free rewards | First Class Hunter+ required |
+| SORRYFOREXPIRE | Free rewards | First Class Hunter+ required |
+| 50KLIKES | Skill Point Reset ×1, Clan Reroll ×1, Fiend Reroll ×1 | No level requirement |
+| FOURTHOFJULY | Independence Day rewards | First Class Hunter+ required |
+| FIENDSSOON | Free rewards | First Class Hunter+ required |
+
+## Expired Codes
+DECAPLARP, SAVEDENJI, POCHITABOSS, ALMOST100K, SorryForBugs, IAMTHEONEWHODECIDES, TheWorld, AboveHeaven, Gambler, 223, Winter26, FallEndsSoon, Cog5th, Sorry4Bugs
+
+## How to Redeem (step by step)
+1. Launch Devil Hunter on Roblox
+2. Press `N` to open your phone
+3. Tap the **Codes** app
+4. Type or paste your code exactly
+5. Hit **Redeem**
+
+⚠️ Most codes require you to be **First Class Hunter** rank or higher. New players: rank up before trying to redeem.
+
+⚠️ You must join the official **Devil Hunter Roblox Group** to redeem codes. Find it under the Developer section of the Roblox game page.
+
+## How to Get More Codes
+- Join the [Devil Hunter Discord](https://discord.gg/devilhunter)
+- Bookmark this page — we update daily
+- Follow the developers on Roblox
+
+---
+
+# 三、/weapons — 武器总表
+
+## Page Title
+All Devil Hunter Weapons — Stats, Tier List & How to Get
+
+## Meta Description
+Complete Devil Hunter weapons database: all 33 weapons ranked S–D with damage stats, how to get each one, and weapon type breakdown. Light, Medium, Heavy, Firearms & Martial Arts.
+
+## Hero
+33 weapons. 5 categories. One tier list that actually stays updated.
+
+## Intro
+You've got five weapon types in Devil Hunter: Light (fast, low damage), Medium (balanced all-rounders), Heavy (slow but devastating), Firearms (keep your distance), and Martial Arts (hybrid melee fighters). Early game? Grab a Katana. Endgame? Farm for Kuchigatana or Scarlet Queen.
+
+## Weapon Type Breakdown
+
+### Light Weapons
+Small, fast, low damage. Good for early game, outclassed quickly.
+
+| Name | DMG | Source | Tier |
+|---|---|---|---|
+| Kitchen Knife | 6.5 | Starter weapon | D |
+| Combat Knife | 7 | Armory | D |
+| Locus Knife | 8.5 | Armory | C |
+| Velvet Knife | 9 | Black Market | C |
+| Kasaka's Fangs | 10 | Craft | B |
+| Left & Right | 8 | Armory | D |
+
+### Medium Weapons
+The sweet spot. Balanced speed and damage. Best for most players.
+
+| Name | DMG | Source | Tier |
+|---|---|---|---|
+| Katana | 7 | Armory | C |
+| Yukimura | 8.5 | Armory / Black Market | C |
+| Yamada | 10 | Craft | A |
+| Murasama | 10.5 | Black Market / Craft | B |
+| Kuchigatana | 12 | Craft (Katana Fragments) | S |
+| Razorfang | 9.5 | Craft | B |
+| Shibuki | 9 | Craft | B |
+
+### Heavy Weapons
+Slower swings, massive damage. High skill ceiling — miss and you're vulnerable.
+
+| Name | DMG | Source | Tier |
+|---|---|---|---|
+| Broad Axe | 8 | Armory | C |
+| Razor Halberd | 11.85 | Armory / Craft | A |
+| Scissor Blade | 12.5 | Craft | A |
+| Undead Sickles | 11 | Craft | A |
+| Fleshbreaker | 13 | Craft (Rare materials) | S |
+| Rot and Ruin | 13 | Craft (Rare materials) | S |
+| Rot Blade | 12 | Craft | S |
+| Devil's Maw | 10 | Craft | B |
+
+### Firearms
+Guns. Distance is your armor. Low risk, consistent damage.
+
+| Name | DMG | Source | Tier |
+|---|---|---|---|
+| 1911 | 7 | Armory | C |
+| Model: Uzi | 9 | Armory / Black Market | B |
+| AK-47 | 11 | Armory / Black Market | A |
+| Greenshot | 8 | Armory | C |
+| Cobalt Bloom | 9.5 | Craft | B |
+| Brainsplasher | 8.5 | Black Market | C |
+| Punk Hazard | 8.5 | Black Market | C |
+| Scarlet Queen | 13 | Craft | S |
+| Cross Punisher | 12.5 | Craft | S |
+
+### Martial Arts
+Hybrid melee — fists and weapons mixed. Versatile with serious burst potential.
+
+| Name | DMG | Source | Tier |
+|---|---|---|---|
+| Devil Crusher | 9 | Craft (8 Rare Flesh + 15 Uncommon + 20 Common) | B |
+| Rev of Hell | 14 | Raid drop (Legendary) | A |
+| Devils Fuse | 14 | Raid drop (Legendary) | S |
+| Grave Digger | 13 | Raid drop (Legendary) | S |
+| Eternity's Needle | 13 | Raid drop (Legendary) | S |
+
+### Where to Get Weapons
+- **Armory**: HQ, basic weapons for Yen
+- **Black Market**: Behind the painting in HQ, refreshes every 15 minutes — rare finds
+- **Crafting**: Division 2 HQ crafting table using Devil Flesh and fragments
+- **Raid Drops**: Legendary weapons from Floor Zero and boss encounters
+
+### Best-in-Slot by Weapon Type
+- Best Light: Kasaka's Fangs
+- Best Medium: Kuchigatana
+- Best Heavy: Fleshbreaker or Rot and Ruin
+- Best Firearm: Scarlet Queen
+- Best Martial Arts: Rev of Hell / Devils Fuse
+
+---
+
+# 四、/weapons/[slug] — 武器详情页（每把武器一个页面）
+
+以 Axe Devil（Broad Axe）为例：
+
+## Page Title
+Broad Axe Devil Hunter — Weapon Stats, Guide & How to Get
+
+## Meta Description
+Broad Axe is a Heavy weapon in Devil Hunter with 8 base damage. Available from the Armory. Learn stats, comparison, and whether it's worth using.
+
+## Content
+- **Type**: Heavy Weapon
+- **Base Damage**: 8
+- **Tier**: C
+- **How to Get**: Buy from the Armory in HQ
+- **Pros**: Easy to obtain, decent starter heavy
+- **Cons**: Outclassed quickly by Razor Halberd, Scissor Blade, and S-tier heavies
+- **Best For**: Learning heavy weapon timing before upgrading
+
+Every weapon detail page follows this template:
+- Type, DMG, Tier, Source
+- Pros / Cons
+- Upgrade path (what to replace it with)
+- Related weapons
+
+---
+
+# 五、/contracts — 契约列表
+
+## Page Title
+Devil Hunter Contracts Guide — All 15 Devils & Sacrifices
+
+## Meta Description
+Complete Devil Hunter contracts guide: all 15 devils ranked S–D, with locations, sacrifices, abilities, and how to sign your first contract. Only humans can contract.
+
+## Hero
+Sell your eye. Trade your arm. In Devil Hunter, power always has a price.
+
+## Intro
+Contracts are pacts between humans and devils — you give something up, you get supernatural powers in return. Only Human characters can sign contracts. Fiends and Hybrids can't. Sign three of the same devil type and you can become a Fiend yourself.
+
+## All 15 Contracts
+
+| Devil | Rarity | Location | Sacrifice | What You Get |
+|---|---|---|---|---|
+| Sea Cucumber | Common | Free roam | Arm | Acid projectiles |
+| Bat | Common | Free roam | None | AoE pulse + wings for mobility |
+| Leech | Common | Free roam | Heart | Passive life leech |
+| Mantis | Uncommon | Free roam | Beat it in combat (70%+ in 1v1) | Speed boost + slash attacks |
+| Tomato | Rare | Free roam | None | Plant-based abilities |
+| Curse | Legendary | Floor Zero NPC | Lifespan | Cursed sword — single-target execute |
+| Future | Special | Floor Zero NPC | 30 eyes | Future Sight: counter windows into i-frames |
+| Ghost | Rare | Raid boss drop | Right arm OR right eye | Ghost Choke + Ghost Punch |
+| Zombie | Common | Raid boss drop | None | Summon and command zombies |
+| Fish | Uncommon | Shrine | Worm carcass | Water-based attacks |
+| Fox | Rare | Shrine | Right eye + flesh | Summon Kon (fox head) |
+| Frog | Uncommon | Shrine | Fly fiend head | AoE head bite attack |
+| Mold | Rare | Shrine | 10 human legs | Spread decay + debuffs |
+| Snake | Rare | Shrine | 20 hearts | Spit, swallow, and store enemies |
+| Stone | Rare | Shrine | Body parts | Turn enemies to stone |
+
+## How to Sign a Contract
+1. Find a devil in Free Roam, Shrine, Floor Zero, or Raid
+2. Meet its sacrifice requirement (body parts, combat trial, etc.)
+3. Accept the deal
+4. Contract appears in your abilities — equip and use
+
+## Breaking a Contract
+If you break a contract, **you die permanently**. All progress lost. The only way out is a **Devil Eraser** — buy it from the Black Market behind the painting in HQ.
+
+## Contract Combos
+You can hold multiple contracts simultaneously. Stack S-tier abilities — but watch your debuffs. Too many sacrifices can cripple you.
+
+---
+
+# 六、/contracts/[slug] — 契约详情（15 个页面）
+
+以 Bat Devil 为例：
+
+## Page Title
+Bat Devil Contract — Devil Hunter Guide (Sacrifice, Location & Abilities)
+
+## Meta Description
+The Bat Devil contract in Devil Hunter costs nothing to sign and gives you AoE damage plus wing mobility. Best beginner contract — full guide here.
+
+## Content
+- **Rarity**: Common
+- **Location**: Free Roam (find in open world)
+- **Sacrifice**: None
+- **Ability**: AoE pulse damage + wing mobility (fly short distances)
+- **Why It's Good**: Zero sacrifice, AoE clear, and wings give you map mobility. Best first contract for any new player.
+- **Downside**: Damage falls off in late game. Replace with Curse or Ghost when you're ready.
+- **Tier**: A (S-tier for beginners)
+
+---
+
+# 七、/fiends — Fiend 列表
+
+## Page Title
+Devil Hunter Fiends Tier List — Best Fiend Builds (S to B)
+
+## Meta Description
+Devil Hunter fiends ranked S–B: Angel Fiend, Blood Fiend, Shark Fiend, and more. Best fiend picks, ascended weapon changes, and how to become a fiend.
+
+## Hero
+Trade your humanity for raw power. Fiends can't contract — but they don't need to.
+
+## Intro
+Fiends are the other path. No contracts, no sacrifices — just raw fiend abilities and ascended weapons. To become a fiend: sign three contracts with the same devil type, find the injured fiend NPC in HQ, pay 10K Yen, and transform. Warning: you can't go back.
+
+## All Fiends
+
+| Fiend | Tier | What's Good | Watch Out |
+|---|---|---|---|
+| Angel Fiend | S | Spear + sword ascended crits, reworked in Release | Higher skill floor |
+| Blood Fiend (Power) | S | Unique crit mechanic, high burst potential | Crit follows cursor — aim matters |
+| Shark Fiend | A | Reliable M1 chain | Crit lost guardbreak (Release nerf) |
+| Cosmo Fiend | A | **50% faster crit** since Release — huge buff | Was mid-tier before Release |
+| Violence Fiend | A | Fast running M1, less crit windup | Less posture damage on M1s |
+| Nail Fiend | B | Solid starter fiend | More windup, less range in Release |
+| Flea Fiend | B | Damage buff in Release | More crit windup |
+| Gun Fiend | B | Ranged fiend with firearms | Smaller crit hitbox, less posture DMG |
+
+## How to Reroll Fiend
+- Get Fiend Rerolls from codes or Robux (150 for 1, 399 for 3)
+- Open inventory → assign Fiend Reroll to hotbar → use it
+- Only works if you're a Fiend (wasted if used as Human/Hybrid)
+
+---
+
+# 八、/hybrids — 混血列表
+
+## Page Title
+Devil Hunter Hybrids Guide — All 9 Hybrids Tier List
+
+## Meta Description
+All 9 Devil Hunter hybrids ranked S–B: CSM, Bomb, Chainsaw, Flamethrower, and more. How to unlock hybrids via Soul Realm — full tier list and guide.
+
+## Hero
+Human? Fiend? The third path is both — and it's the strongest.
+
+## Intro
+Hybrids are the elite class in Devil Hunter. You need to complete Soul Realm quests to unlock hybrid status. Once transformed, you get unique transformation abilities that outscale both humans and fiends. CSM and Bomb are the current S-tier meta picks post-Release.
+
+## All Hybrids
+
+| Hybrid | Tier | Meta Status (July 2026) |
+|---|---|---|
+| CSM (Chainsaw Man) | S | Ripper range reduced, Heroic Spin more windup — still top tier |
+| Bomb | S | Homing Swarm nerfed but still dominant |
+| Chainsaw | S | Classic powerhouse, reliable |
+| Flamethrower | S | Consistent AoE damage |
+| Deep Sea | A | Solid pick, not meta-defining |
+| Katana | A | Kuchigatana synergy makes this a strong combo |
+| Shield | B | Defensive hybrid, niche |
+| Whip | B | Mid-range, ok |
+| Crossbow | B | Ranged hybrid, outclassed by Firearm builds |
+
+## How to Unlock Hybrids
+1. Reach required level (varies by hybrid)
+2. Complete Soul Realm quest chain
+3. Transform — permanent choice (you lose human form and contract abilities)
+
+---
+
+# 九、/clans — 氏族
+
+## Page Title
+Devil Hunter Clans — All 14 Clans, Buffs & Effects
+
+## Meta Description
+Complete Devil Hunter clans guide: all 8 rare clans with buffs and effects, all 50+ common clan names, and how to reroll your clan lineage. Best clans for every build.
+
+## Hero
+Your bloodline isn't random — it's your first build choice.
+
+## Intro
+Clans in Devil Hunter are family lineages assigned at character creation. There are 8 rare clans with powerful buffs and effects, plus 50+ common clans with zero bonuses. You want a rare clan. If you don't get one, reroll.
+
+## Rare Clans (8)
+
+| Clan | Buffs | Effects |
+|---|---|---|
+| Gunji | DMG +10% | Below 25% HP: Technique, Speed, Resistance +15% |
+| Kishimoto | Soul +25, Posture +10 | Better Resolve/Sanity scaling, anti-debuff resistance |
+| Fushai | Speed +12% | 3 hits → Conqueror's Dominance on enemy (-10% Speed/Posture) |
+| Fujimoto | Posture +10, HP +10, Stamina +10 | Reduced skill stamina cost, balanced resilience |
+| Kishibe | Posture +15, HP +10, Stamina +20 | Debuff duration -20%, less Soul Drain, extra DMG vs Devils |
+| Higashiyama | Mobility +10, Stamina +20 | Light Weapon DMG up, better stamina on Heavy attacks, dagger proficiency |
+| Sawatari | — | Snake Devil costs down, Snake penalties reduced |
+| Yoshida | — | Octopus Devil costs down, buffed Ink Status, Obscurity resistance |
+| Himeno | — | Ghost Devil costs down, stronger Fear effects |
+| Hayakawa | Posture +10, Soul +30 | All contract requirements reduced |
+
+## Common Clans (50+)
+Takahashi, Yamamoto, Tanaka, Kobayashi, Matsumoto, Shimizu, Kawasaki, Ishikawa, Nakagawa, Hoshino, Inoue, Sakamoto, Hirano, Abe, Ueno, Kurosawa, Ono, Miyazaki, Shibata, Fukuda, Endo, Hara, Takagi, Saito, Morita, Sugimoto, Noguchi, Okamoto, Imai, Ando, Kudo, Fujii, Uehara, Shirakawa, Sasaki, Mizushima, Hoshikawa, Nagano, Tsukamoto, Tamura, Ichikawa, Yamaguchi, Harada, Kitagawa, Murakami, Fujisawa, Kaneko, Matsuda, Tsubaki, Oshiro, Sugawara, Matsui, Tokunaga, Hoshimoto, Nakata
+— *No buffs or effects.*
+
+## How to Reroll
+- 150 Robux = 1 Clan Reroll
+- 399 Robux = 3 Clan Rerolls
+- Free: redeem codes (50KLIKES gives Clan Reroll)
+
+---
+
+# 十、/divisions — Division 指南
+
+## Page Title
+Devil Hunter Divisions — Best Division & How to Join
+
+## Meta Description
+Complete Devil Hunter divisions guide: all 6 Public Safety divisions ranked by difficulty, starting quests, captain locations, and which division to pick for beginners.
+
+## Hero
+Six divisions. One choice. Here's which one won't waste your time.
+
+## Intro
+In Devil Hunter, you join Public Safety as one of six divisions. Each has a starting quest. After that, **divisions don't matter** — no long-term stat bonuses, no locked zones. But your starting quest difficulty varies wildly. Pick right and you're done in 5 minutes. Pick wrong and you're stuck.
+
+## All 6 Divisions
+
+| Div | Difficulty | Captain (Floor) | Starting Quest | Rating |
+|---|---|---|---|---|
+| 1 | Easy | Renji Takeda (F1) | Kill 5 devils, deal 2,500 damage | ✅ Best for beginners |
+| 2 | Easy | Dr. Ayaka Mori (F1) | Craft a weapon at the station | ✅ Has crafting table in-room |
+| 3 | Hard | Yurei Oda (F1) | Kill a contract-offering devil + bounty contract | ❌ Skip |
+| 4 | Very Hard | Kaoru Nishima (F2) | Complete mission + kill another player + intercept mission | ❌ PvP required |
+| 5 | Easy | Sana (F2) | Buy from Black Market + take elevator to Floor Zero | ✅ Fastest overall |
+| 6 | Medium | Izan Yumei (F2) | Use surgery kit + talk to Dorian Graves | ⚠️ OK, but Div 1/2/5 easier |
+
+## FAQ for this page
+**Can I switch divisions later?**
+Reports are conflicting. Some say Black Market 400K tokens. Others say full account wipe required. Check in-game.
+
+**Can I skip divisions entirely?**
+Yes — join the Yakuza faction instead. You get Snake Devil, Zombie Devil, and Katana Hybrid access. But lose Public Safety HQ and Floor Zero NPC access. Permanent decision.
+
+**Which division is Denji in?**
+Lore-wise, Denji is Special Division 4 in Chainsaw Man. In-game, Division 4 is the hardest starting quest (PvP interception) — fitting.
+
+---
+
+# 十一、/beginner-guide — 新手攻略
+
+## Page Title
+Devil Hunter Beginner Guide — First 30 Minutes Walkthrough
+
+## Meta Description
+Devil Hunter beginner guide: race selection, HQ layout, how to get your first weapon, best division, Black Market unlock, and essential tips for your first 30 minutes.
+
+## Hero
+New to Devil Hunter? Don't waste your first hour guessing. Here's exactly what to do.
+
+## Step-by-Step
+
+### Step 1: Pick Your Race
+- **Human**: Can sign devil contracts, flexible build paths, access to Public Safety divisions. Pick this if you're new.
+- **Fiend**: Cannot contract. Has a fiend skill tree instead. No divisions. Different playstyle — harder for beginners.
+- ⚠️ You cannot change your race later. Choose carefully.
+
+### Step 2: Navigate HQ
+After spawn, you're in Headquarters. Find Kintoki — the NPC with a golden question mark in the center. He sends you to meet all 6 division captains. Floor 1 has captains 1-3. Floor 2 has 4-6 (use the elevator on the opposite side of the room from Kintoki). Completing this gives you starting money (humans only).
+
+### Step 3: Get Your First Weapon
+You have 4 starter choices: Kitchen Knife, Combat Knife, Katana, or Broad Axe. **Pick the Katana** — it's medium speed, medium damage, and will carry you through early missions.
+
+### Step 4: Pick Your Division
+Division 1, 2, or 5. Any of these have easy starting quests. Division 2 also houses a crafting table — convenient. Avoid Division 3 and 4 as a new player.
+
+### Step 5: Unlock the Black Market
+HQ has a painting with a hidden door behind it. Go through — inside is the Black Market. Important items rotate every 15 minutes. This is where you buy Devil Erasers, rare weapons, and clan rerolls.
+
+### Step 6: Buy a Skateboard
+Skateboards speed up your map travel. Buy one as soon as you can afford it.
+
+### Early Game Checklist
+- [ ] Join the Devil Hunter Roblox Group (needed for code redemption)
+- [ ] Redeem all active codes for free Yen and rerolls
+- [ ] Complete your division starting quest
+- [ ] Reach First Class Hunter rank
+- [ ] Find the Black Market and bookmark it
+- [ ] Buy your first upgrade weapon (Yukimura or Yamada)
+- [ ] Sign your first contract (Bat Devil recommended)
+
+---
+
+# 十二、/tier-lists — 综合 Tier
+
+## Page Title
+Devil Hunter Tier List — Best Contracts, Fiends, Clans & Weapons
+
+## Meta Description
+Ultimate Devil Hunter tier list: best contracts, fiends, hybrids, weapons, and clans ranked S–D. Updated for Patch 0.0.3 (July 2026).
+
+## Hero
+Four tier lists. One page. Updated every patch.
+
+## Contracts Tier List
+S: Curse, Ghost, Mantis, Octopus
+A: Bat, Fox, Future, Sea Cucumber, Snake, Zombie
+B: Leech, Stone, Tomato
+C: Frog, Mold
+D: Fish
+
+## Fiends Tier List
+S: Angel, Blood (Power)
+A: Shark, Cosmo, Violence
+B: Nail, Flea, Gun
+
+## Hybrids Tier List
+S: CSM, Bomb, Chainsaw, Flamethrower
+A: Deep Sea, Katana
+B: Shield, Whip, Crossbow
+
+## Weapons Tier List
+S: Kuchigatana, Scarlet Queen, Cross Punisher, Rot Blade, Fleshbreaker, Rot and Ruin
+A: AK-47, Razor Halberd, Yamada, Scissor Blade, Undead Sickles, Rev of Hell
+B: Devil Crusher, Cobalt Bloom, Model: Uzi, Devil's Maw, Shibuki, Murasama, Razorfang, Kasaka's Fangs
+C: Brainsplasher, Punk Hazard, Greenshot, 1911, Broad Axe, Yukimura, Katana, Locus Knife, Velvet Knife
+D: Left & Right, Kitchen Knife, Combat Knife
+
+---
+
+# 十三、/faq — 常见问题
+
+## Page Title
+Devil Hunter FAQ — Common Questions & Answers
+
+## Meta Description
+Devil Hunter frequently asked questions: how to become a fiend, get scars, join the group, reach Floor Zero, change race, and more. Quick answers.
+
+## FAQ Items
+
+### How do I become a Fiend?
+Sign 3 contracts with the same devil type → find the injured Fiend NPC in HQ → pay 10,000 Yen → transform. You lose all contracts. Permanent decision.
+
+### How do I get scars in Devil Hunter?
+Scars appear when you take certain contract sacrifices. For example, Fox Devil requires your right eye and flesh — this leaves visible scars. It's cosmetic but shows other players your sacrifice level.
+
+### What's the best beginner contract?
+Bat Devil. Zero sacrifice, free AoE damage, and wings give you map mobility. Sign it immediately.
+
+### How do I reach Floor Zero?
+Take the elevator in HQ (opposite side from Kintoki). Floor Zero has high-level NPCs, Curse Devil, and Future Devil contracts.
+
+### Can I change my race later?
+No. Human ↔ Fiend is a one-way choice. If you want to switch, you must delete your character and start over.
+
+### How to get Kuchigatana?
+Craft it at the Division 2 crafting table. Requires Katana Fragments (farm from missions and raids).
+
+### How do I join the Devil Hunter Roblox Group?
+Go to the Roblox game page → scroll down to Developer section → click Join Community. Required for code redemption.
+
+### What happens if I break a contract?
+You die. Permanently. All character data wiped. The only safe way to end a contract is with a Devil Eraser from the Black Market.
+
+### What is the Black Market?
+A hidden shop behind a painting in HQ. Refreshes every 15 minutes. Sells Devil Erasers, rare weapons, clan and fiend rerolls.
+
+### How do I get Devil Eraser?
+Buy it from the Black Market. It's the only safe way to cancel a contract without dying.
+
+### What's the difference between Human, Fiend, and Hybrid?
+- **Human**: Can sign contracts with devils. Most flexible.
+- **Fiend**: No contracts. Has a fiend skill tree and ascended weapons. Must transform from human.
+- **Hybrid**: The third path. Unlocked via Soul Realm quests. Gets transformation abilities that outscale both humans and fiends. Permanent.
+
+### How do I get hybrid?
+Complete the Soul Realm quest chain. Level requirement varies by hybrid type. Once transformed, you lose human form and contracts.
+
+---
+
+# 十四、/how-to-redeem-codes
+
+## Page Title
+How to Redeem Devil Hunter Codes — Step by Step
+
+## Meta Description
+Step-by-step guide on how to redeem Devil Hunter codes. Includes requirements (Roblox group, First Class Hunter rank), phone menu navigation, and troubleshooting.
+
+## Steps
+1. Launch Devil Hunter
+2. Press `N` on keyboard → phone opens
+3. Tap Codes app
+4. Type code exactly as shown
+5. Tap Redeem
+
+## Requirements
+- Must join Devil Hunter Roblox Group
+- Most codes need First Class Hunter rank or higher
+- Codes are case-sensitive
+
+## Troubleshooting
+- **"Code expired"** → check our expired list, try the next active code
+- **"Requirements not met"** → you probably haven't ranked up yet. Get to First Class Hunter.
+- **"Not in group"** → join the Roblox group from the game page
+
+---
+
+# 十五、/patch-notes — 更新日志
+
+## Page Title
+Devil Hunter Patch Notes & Updates — 0.0.1 to Release
+
+## Meta Description
+Complete Devil Hunter patch notes history: Release (June 20), 0.0.1, 0.0.2, 0.0.3, and pre-release balance changes. Updated July 2026.
+
+## Timeline
+- **Pre-Release Alpha** (January–June 2026): Closed testing, YT content appears
+- **Patch 10 Balance** (June 5–12, 2026): CSM/Bomb raid balancing, pre-release patches
+- **Official Release** (June 20, 2026): Public launch, Soul Realm, legendary weapons, ascended reworks
+- **Patch 0.0.1** (June 27, 2026): Code expiry fix, console Soul Realm bind
+- **Patch 0.0.2** (June 28, 2026): Bomb raid, 4th soul trial, bank system, Kuchigatana fixes
+- **Patch 0.0.3** (July 2026): Clans bug fixes, balance adjustments, FOURTHOFJULY code
+
+## Known Issues (July 2026)
+- Bugged clans: Kishibe, Higashiyama, Sawatari, Yoshida, Himeno, Hayakawa — avoid rerolling into these until fixed
+- Kuchigatana crit bug: exploitable but **BANNABLE** per official Discord (July 5 warning)
+
+---
+
+# SEO Checklist（每个页面必须）
+
+- ✅ 独立 `<title>` 含 "Devil Hunter" + 搜索关键词
+- ✅ 独立 `<meta description>` ≤ 160 字符
+- ✅ `og:title`, `og:description`, `og:image` 独立
+- ✅ BreadcrumbList JSON-LD
+- ✅ FAQ 页有 FAQ JSON-LD Schema
+- ✅ canonical URL
+- ✅ 全站英文，零中文
+- ✅ Last Updated 时间戳在底部
+- ✅ Footer: 版权 + SAB wiki 链接 + G&B wiki 链接 + 免责声明
+- ✅ robots.txt (Disallow: /api/)
+- ✅ sitemap.xml
+
+## 技术
+- Next.js 静态导出（farever-wiki-template，同 SAB/G&B）
+- GA4 嵌入
+- AdSense 广告位
+- 面包屑：Home > Section > Page
