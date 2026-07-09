@@ -5,7 +5,7 @@ Opens each list's See All page, scrolls to load, extracts game data from
 accessibility tree snapshots (no per-game ref queries), enriches via API.
 """
 
-import subprocess, json, re, time, csv, os
+import subprocess, json, re, time, csv, os, shutil
 from datetime import datetime, timezone
 from collections import Counter
 
@@ -15,6 +15,7 @@ LIST_NAMES = ["Top Trending", "Up-and-Coming", "Top Playing Now"]
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_DIR = os.path.join(SCRIPT_DIR, "data")
 ARCHIVE_DIR = os.path.join(OUTPUT_DIR, "archive")
+PROJECT_DATA_DIR = os.path.join(os.path.dirname(SCRIPT_DIR), "data")
 
 CSV_FIELDS = ["rank", "universe_id", "root_place_id", "name", "playing",
               "visits", "favorited_count", "created", "updated", "url", "list"]
@@ -277,11 +278,13 @@ def main():
                 w[k] = str(g.get(k, ""))
             writer.writerow(w)
 
-    # Latest symlink
+    # Latest copies. Avoid symlinks for Windows compatibility.
     latest = os.path.join(OUTPUT_DIR, "roblox-chart-latest.csv")
-    if os.path.exists(latest):
-        os.unlink(latest)
-    os.symlink(os.path.basename(output_path), latest)
+    shutil.copyfile(output_path, latest)
+
+    os.makedirs(PROJECT_DATA_DIR, exist_ok=True)
+    launcher_default_path = os.path.join(PROJECT_DATA_DIR, "roblox-chart.csv")
+    shutil.copyfile(output_path, launcher_default_path)
 
     # Archive
     archive_path = os.path.join(ARCHIVE_DIR, f"roblox-chart-{today_str}.csv")
@@ -301,7 +304,8 @@ def main():
         print(f"  {lbl}: {cnt}")
 
     print(f"\nSaved: {output_path}")
-    print(f"Latest: {latest}")
+    print(f"Latest copy: {latest}")
+    print(f"Launcher import copy: {launcher_default_path}")
     print(f"Archive: {archive_path}")
 
     print("\nTop 10 by playing:")

@@ -91,7 +91,7 @@ def _minimal_yaml_load(text: str) -> dict:
 
 
 def load_yaml(path: Path) -> dict:
-    text = path.read_text(encoding="utf-8")
+    text = path.read_text(encoding="utf-8-sig")
     try:
         import yaml  # type: ignore
 

@@ -13,7 +13,7 @@ cd game-sitemap-radar
 python -m pip install -e .
 ```
 
-The MVP runs with the Python standard library. Optional dependencies are listed in `requirements.txt`.
+The core package requires Python 3.11+ and httpx. Optional helper dependencies are listed in `requirements.txt`.
 
 ## Configure
 
@@ -81,6 +81,18 @@ Example row:
 ```
 
 The minimum required CSV columns are `rank`, `universe_id`, and `name`. Optional numeric columns default to `0`. Use `--enrich` to try filling missing details from `https://games.roblox.com/v1/games?universeIds=<ids>`; enrichment is best-effort and never required.
+
+## Optional Roblox Browser Scraper
+
+CSV import is still the stable Roblox workflow. The helper script `scripts/roblox_daily.py` is optional and uses browser automation to open the JavaScript-driven Roblox Charts page.
+
+It requires the external `agent-browser` command and browser automation support. If the scraper fails, manually prepare `data/roblox-chart.csv` and run:
+
+```bash
+python -m radar.cli import-roblox-chart --csv data/roblox-chart.csv
+```
+
+When the scraper succeeds, it writes dated CSV files under `scripts/data/`, updates `scripts/data/roblox-chart-latest.csv`, and copies the latest chart to `data/roblox-chart.csv` so the launcher default import path works immediately.
 
 ## Writing Workflow
 
