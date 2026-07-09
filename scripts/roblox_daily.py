@@ -37,13 +37,29 @@ def run_curl(url: str, timeout: int = 15) -> dict | None:
     return None
 
 
-def fetch_chart_games() -> list[dict]:
-    """Open Roblox Charts and extract game refs and hrefs."""
+def fetch_chart_games(limit: int = 250) -> list[dict]:
+    """Open Roblox Charts, scroll to load games, extract refs and hrefs."""
     run_agent(f'open "{ROBLOX_CHARTS_URL}"', timeout=30)
     run_agent("wait --load networkidle", timeout=30)
     run_agent("wait 3000", timeout=10)
 
-    # Get snapshot
+    # Scroll to load more games until count stabilizes
+    prev_count = 0
+    for _round in range(20):
+        for _ in range(6):
+            run_agent("scroll down 800", timeout=5)
+            import time; time.sleep(0.5)
+        run_agent("wait 1500", timeout=5)
+        raw = run_agent("snapshot -i --json")
+        data = json.loads(raw)
+        snap = data["data"]["snapshot"]
+        current = sum(1 for l in snap.split("\n") if 'link "' in l and '%' in l and "ref=e" in l)
+        print(f"  Scrolling round {_round+1}: {current} games loaded")
+        if current == prev_count or current >= limit:
+            break
+        prev_count = current
+
+    # Get final snapshot
     raw = run_agent("snapshot -i --json")
     data = json.loads(raw)
     snap = data["data"]["snapshot"]
