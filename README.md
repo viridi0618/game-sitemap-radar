@@ -48,8 +48,10 @@ This executes discovery, sitemap crawling, SQLite storage, scoring, and report g
 Useful commands:
 
 ```bash
+python -m radar.cli roblox-csv-template
+python -m radar.cli import-roblox-chart --csv data/roblox-chart.csv
+python -m radar.cli import-roblox-chart --csv data/roblox-chart.csv --enrich
 python -m radar.cli roblox-snapshot
-python -m radar.cli import-roblox-chart --csv path/to/roblox-chart.csv
 python -m radar.cli roblox-report
 python -m radar.cli discover
 python -m radar.cli crawl
@@ -58,11 +60,27 @@ python -m radar.cli export
 python -m radar.cli fusion-report
 ```
 
-`roblox-snapshot` tries live Roblox chart discovery. Roblox endpoints can change, so live fetch failures do not stop the sitemap radar. If live fetching fails, export or prepare a CSV with these columns and use the manual fallback:
+CSV import is the primary Roblox workflow. Roblox live chart pages require JavaScript and the public chart endpoints may fail or disappear, so `roblox-snapshot` is experimental and should not be the main daily source.
+
+Create a template with:
+
+```bash
+python -m radar.cli roblox-csv-template
+```
+
+Then manually prepare or export Roblox top games into `data/roblox-chart.csv` with these columns:
 
 ```csv
 rank,universe_id,root_place_id,name,playing,visits,favorited_count,created,updated,url
 ```
+
+Example row:
+
+```csv
+1,123456789,987654321,Example Roblox Game,12000,45000000,250000,2026-06-20T00:00:00Z,2026-07-09T00:00:00Z,https://www.roblox.com/games/987654321
+```
+
+The minimum required CSV columns are `rank`, `universe_id`, and `name`. Optional numeric columns default to `0`. Use `--enrich` to try filling missing details from `https://games.roblox.com/v1/games?universeIds=<ids>`; enrichment is best-effort and never required.
 
 ## Writing Workflow
 
@@ -102,22 +120,24 @@ python -m radar.cli add-note --project "Ice Tycoon 2" --source-name "Official Ro
 
 Recommended daily workflow:
 
-1. Run `python -m radar.cli roblox-snapshot`.
-2. Open `outputs/roblox-report-YYYY-MM-DD.md`.
-3. Run sitemap radar with `python -m radar.cli run`.
-4. Run `python -m radar.cli fusion-report`.
-5. Manually verify HOT / WATCH candidates with Google Trends, Google Search suggestions, Semrush KD, recent YouTube videos, and content vacuum checks.
-6. If a candidate passes, run `python -m radar.cli plan-writing --candidate "Game Name" --force`.
-7. Add manual research notes.
-8. Generate briefs.
-9. Generate drafts.
-10. Run draft quality checks.
-11. Human-review and fact-check.
-12. Only then move content into a real site manually.
+1. Prepare `data/roblox-chart.csv`.
+2. Run `python -m radar.cli import-roblox-chart --csv data/roblox-chart.csv`.
+3. Run `python -m radar.cli roblox-report`.
+4. Open `outputs/roblox-report-YYYY-MM-DD.md`.
+5. Run sitemap radar with `python -m radar.cli run`.
+6. Run `python -m radar.cli fusion-report`.
+7. Manually verify HOT / WATCH candidates with Google Trends, Google Search suggestions, Semrush KD, recent YouTube videos, and content vacuum checks.
+8. If a candidate passes, run `python -m radar.cli plan-writing --candidate "Game Name" --force`.
+9. Add manual research notes.
+10. Generate briefs.
+11. Generate drafts.
+12. Run draft quality checks.
+13. Human-review and fact-check.
+14. Only then move content into a real site manually.
 
 Signal roles:
 
-- Roblox Watcher = leading player-growth signal.
+- Roblox Watcher = leading player-growth signal, preferably from stable CSV imports.
 - Sitemap Radar = competitor coverage signal.
 - Fusion Report = decision support.
 - Writing Module = draft preparation only.

@@ -8,6 +8,18 @@ import httpx
 from .roblox_models import RobloxChartGame, RobloxGameDetails
 
 
+REQUIRED_CSV_COLUMNS = {"rank", "universe_id", "name"}
+RECOMMENDED_CSV_COLUMNS = {
+    "root_place_id",
+    "playing",
+    "visits",
+    "favorited_count",
+    "created",
+    "updated",
+    "url",
+}
+
+
 class RobloxGameProvider:
     def __init__(self, user_agent: str, timeout: int = 20):
         self.client = httpx.Client(
@@ -27,6 +39,11 @@ class RobloxGameProvider:
         self.close()
 
     def fetch_chart_games(self, limit: int = 200) -> list[RobloxChartGame]:
+        """Experimental live chart fetch.
+
+        Roblox chart/discovery surfaces change often and may require browser JS.
+        CSV import is the stable source of truth for this tool.
+        """
         self.last_error = None
         try:
             url = "https://games.roblox.com/v1/games/list"
@@ -113,9 +130,38 @@ def merge_details(games: list[RobloxChartGame], details: list[RobloxGameDetails]
     return merged
 
 
+def enrich_missing_details(provider: RobloxGameProvider, games: list[RobloxChartGame]) -> list[RobloxChartGame]:
+    needs_details = [
+        game.universe_id
+        for game in games
+        if game.universe_id
+        and (not game.playing or not game.visits or not game.favorited_count or not game.created or not game.updated)
+    ]
+    if not needs_details:
+        return games
+    details = provider.fetch_game_details(needs_details)
+    if not details:
+        return games
+    return merge_details(games, details)
+
+
 def read_roblox_chart_csv(path: Path) -> list[RobloxChartGame]:
     with path.open(newline="", encoding="utf-8-sig") as handle:
         reader = csv.DictReader(handle)
+        columns = set(reader.fieldnames or [])
+        missing_required = sorted(REQUIRED_CSV_COLUMNS - columns)
+        if missing_required:
+            raise ValueError(
+                "Roblox chart CSV is missing required columns: "
+                + ", ".join(missing_required)
+                + ". Required minimum: rank, universe_id, name."
+            )
+        missing_recommended = sorted(RECOMMENDED_CSV_COLUMNS - columns)
+        if missing_recommended:
+            print(
+                "Roblox chart CSV is missing optional columns; defaults will be used: "
+                + ", ".join(missing_recommended)
+            )
         games = []
         for row in reader:
             root_place_id = _int(row.get("root_place_id"))

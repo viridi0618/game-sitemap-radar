@@ -45,3 +45,24 @@ def test_second_snapshot_calculates_deltas(tmp_path):
     assert signals[0]["playing_delta"] == 2000
     assert signals[0]["visits_delta"] == 150000
     conn.close()
+
+
+def test_csv_import_requires_minimum_columns(tmp_path):
+    csv_path = tmp_path / "bad-roblox-chart.csv"
+    csv_path.write_text("rank,name\n1,Ice Tycoon 2\n", encoding="utf-8")
+    try:
+        read_roblox_chart_csv(csv_path)
+    except ValueError as exc:
+        assert "missing required columns" in str(exc)
+        assert "universe_id" in str(exc)
+    else:
+        raise AssertionError("Expected missing required columns error")
+
+
+def test_csv_import_allows_minimum_columns(tmp_path):
+    csv_path = tmp_path / "minimal-roblox-chart.csv"
+    csv_path.write_text("rank,universe_id,name\n1,100,Ice Tycoon 2\n", encoding="utf-8")
+    games = read_roblox_chart_csv(csv_path)
+    assert games[0].playing == 0
+    assert games[0].visits == 0
+    assert games[0].favorited_count == 0

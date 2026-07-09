@@ -33,7 +33,7 @@ from .fetcher import Fetcher
 from .game_extractor import extract_candidate_game
 from .report import build_candidates, write_reports
 from .review import check_draft
-from .roblox_provider import RobloxGameProvider, merge_details, read_roblox_chart_csv
+from .roblox_provider import RobloxGameProvider, enrich_missing_details, merge_details, read_roblox_chart_csv
 from .roblox_report import store_and_score_roblox_snapshot, write_roblox_report
 from .robots import discover_sitemap_urls
 from .sitemap_parser import parse_sitemap_xml
@@ -432,8 +432,11 @@ def cmd_roblox_snapshot(_args) -> int:
             games = provider.fetch_chart_games(limit=200)
             if not games:
                 finish_run(conn, run_id, 0, 0, 0, 1)
-                print(f"Roblox live chart fetch failed: {provider.last_error or 'unknown error'}")
-                print("Use fallback: python -m radar.cli import-roblox-chart --csv path/to/roblox-chart.csv")
+                print("Roblox live chart fetch failed or returned no games.")
+                if provider.last_error:
+                    print(f"Details: {provider.last_error}")
+                print("This endpoint is experimental and may be deprecated. Use CSV fallback instead:")
+                print("python -m radar.cli import-roblox-chart --csv data/roblox-chart.csv")
                 return 0
             details = provider.fetch_game_details([game.universe_id for game in games])
             games = merge_details(games, details)
@@ -455,7 +458,17 @@ def cmd_roblox_report(_args) -> int:
 
 
 def cmd_import_roblox_chart(args) -> int:
-    games = read_roblox_chart_csv(Path(args.csv))
+    try:
+        games = read_roblox_chart_csv(Path(args.csv))
+    except ValueError as exc:
+        print(str(exc))
+        return 2
+    config = load_config()
+    if args.enrich:
+        with RobloxGameProvider(config.settings.user_agent, config.settings.request_timeout_seconds) as provider:
+            games = enrich_missing_details(provider, games)
+            if provider.last_error:
+                print(f"Roblox detail enrichment warning: {provider.last_error}")
     with connect() as conn:
         init_db(conn)
         run_id = start_run(conn, 1)
@@ -465,6 +478,17 @@ def cmd_import_roblox_chart(args) -> int:
     print(f"Imported {len(games)} Roblox chart rows.")
     print(f"Wrote Roblox report: {md_path}")
     print(f"Wrote Roblox CSV: {csv_path}")
+    return 0
+
+
+def cmd_roblox_csv_template(_args) -> int:
+    ensure_dirs()
+    path = PROJECT_ROOT / "data" / "roblox-chart-template.csv"
+    headers = ["rank", "universe_id", "root_place_id", "name", "playing", "visits", "favorited_count", "created", "updated", "url"]
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(headers)
+    print(f"Wrote Roblox CSV template: {path}")
     return 0
 
 
@@ -489,12 +513,14 @@ def build_parser() -> argparse.ArgumentParser:
         "export": cmd_export,
         "roblox-snapshot": cmd_roblox_snapshot,
         "roblox-report": cmd_roblox_report,
+        "roblox-csv-template": cmd_roblox_csv_template,
         "fusion-report": cmd_fusion_report,
     }.items():
         cmd = sub.add_parser(name)
         cmd.set_defaults(func=func)
     import_roblox = sub.add_parser("import-roblox-chart")
     import_roblox.add_argument("--csv", required=True)
+    import_roblox.add_argument("--enrich", action="store_true")
     import_roblox.set_defaults(func=cmd_import_roblox_chart)
     plan = sub.add_parser("plan-writing")
     plan.add_argument("--candidate", required=True)
