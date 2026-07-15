@@ -4,7 +4,8 @@
 > 站点类型：预发布信息型 + 任务解释型 guide hub
 > 评级：A-
 > 首批页面：16 页
-> 状态：待老大审核
+> 状态：老大已审核，修 6 点后进入 Codex 框架阶段
+> 最近修改：2026-07-15（老大审核后）
 
 ---
 
@@ -19,19 +20,19 @@
 | 3 | /platforms | Witchbrook Platforms: PC, Switch, Switch 2, Xbox & PS5 Status | Witchbrook confirmed platforms: PC (Steam), Nintendo Switch, Nintendo Switch 2, Xbox. PS5 and PS4 status explained. No PlayStation version announced. | Witchbrook Platforms | witchbrook platforms |
 | 4 | /switch | Witchbrook on Nintendo Switch: Release, Features & What We Know | Witchbrook is confirmed for Nintendo Switch in 2026. Details on Switch version, features, and how it compares to other platforms. | Witchbrook on Nintendo Switch | witchbrook switch |
 | 5 | /switch-2 | Witchbrook on Nintendo Switch 2: Confirmed, Day-1 Launch | Witchbrook confirmed for Nintendo Switch 2, launching day-1 alongside Switch, Xbox, and PC. New features and footage from Nintendo Direct. | Witchbrook Switch 2 | witchbrook switch 2 |
-| 6 | /xbox | Witchbrook on Xbox: Game Pass, Cross-Play & Features | Witchbrook on Xbox (One, Series X|S): confirmed features include 4K, 120fps, Smart Delivery, Xbox achievements, cloud saves, and cross-platform multiplayer. | Witchbrook Xbox | witchbrook xbox |
+| 6 | /xbox | Witchbrook on Xbox: Series X|S, Xbox One, Co-op & Features | Witchbrook is confirmed for Xbox One and Xbox Series X|S. See Xbox store features, online co-op, cross-platform support, Smart Delivery, achievements, and Game Pass status. | Witchbrook Xbox | witchbrook xbox |
 | 7 | /ps5 | Is Witchbrook Coming to PS5 or PS4? PlayStation Status Explained | Witchbrook is NOT currently announced for PS5 or PS4. Confirmed platforms are PC, Nintendo Switch, Switch 2, and Xbox. Other platforms TBD. | Witchbrook PS5 | witchbrook ps5, witchbrook ps4 |
-| 8 | /multiplayer | Witchbrook Multiplayer & Co-op: Up to 4 Players Online | Witchbrook supports up to 4-player online co-op. No split-screen. Cross-platform multiplayer confirmed on Xbox. Details on co-op gameplay here. | Witchbrook Multiplayer | witchbrook multiplayer, witchbrook co op |
+| 8 | /multiplayer | Witchbrook Multiplayer & Co-op: Online Play, Player Count & Split-Screen | Witchbrook supports up to 4-player online co-op. No split-screen. Cross-platform multiplayer on Xbox. All Witchbrook multiplayer and co-op details in one guide. | Witchbrook Multiplayer | witchbrook multiplayer, witchbrook co op, witchbrook online co-op |
 | 9 | /steam | Witchbrook on Steam: Wishlist, Features & System Requirements | Witchbrook Steam page is live. Wishlist now, see system requirements (Windows 10+, quad-core, 8GB RAM, 4GB VRAM, 2GB storage), and Steam features. | Witchbrook Steam | witchbrook steam |
 
 ### P1 — 玩法页（4 页）
 
 | # | slug | title (SEO) | meta description | H1 | 目标关键词 |
 |---|------|-------------|------------------|----|-----------|
-| 10 | /classes | Witchbrook Classes: Alchemy, Divination, Spells, Herbology & More | Witchbrook classes guide: what subjects you take at Witchbrook College — Alchemy, Divination, Spell-casting, Herbology, Broom-flying, Arcane Arts. | Witchbrook Classes | witchbrook classes |
+| 10 | /classes | Witchbrook Classes & Subjects: What We Know So Far | Witchbrook classes and college subjects explained, including confirmed magical study areas, assignments, exams, spells, and what remains unknown before release. | Witchbrook Classes & Subjects | witchbrook classes |
 | 11 | /assignments | Witchbrook Assignments: How College Tasks, Merits & Exams Work | Witchbrook assignments explained: how to complete college tasks, earn merits, spend them at the college shop, and qualify for exams. | Witchbrook Assignments | witchbrook assignments |
 | 12 | /witchy-business | Witchbrook Witchy Business: Start Your Own Magic Shop | Witchbrook witchy business system explained: start your magic business, fulfill orders, use your moped or broom for deliveries, and sell at the Sunday market. | Witchbrook Witchy Business | witchbrook business, witchbrook money |
-| 13 | /romance | Witchbrook Romance: Characters, Relationships & Dating Guide | Witchbrook romance guide: confirmed romance candidates (Hana, Pip, Eli, Cormac), dating mechanics, relationship building, and covenmate stories. | Witchbrook Romance | witchbrook romance |
+| 13 | /romance | Witchbrook Romance: Characters, Relationships & Dating Guide | Witchbrook romance guide with revealed dating details, relationship mechanics, confirmed character reveals, and what remains unknown before release. | Witchbrook Romance | witchbrook romance |
 
 ### P2 — SEO 拓展页（3 页）
 
@@ -130,18 +131,20 @@ platforms:
     - Mac: Not announced
     - Mobile: Not announced
   xbox_features:
-    - 4K Ultra HD
-    - 120 fps
-    - 60 fps+
-    - Smart Delivery
-    - Optimized for Xbox Series X|S
-    - Xbox achievements
-    - Xbox cloud saves
-    - Xbox cross-platform multiplayer
-    - Xbox cross-platform co-op
-    - Xbox Live Cross-Gen Multiplayer
-    - Variable Refresh Rate
-    - Xbox Game Pass (unconfirmed — "Online multiplayer requires Game Pass Ultimate or Core" on store page but game inclusion TBD)
+    note: "The Xbox store currently lists these as capabilities. Actual performance may vary by console, display, and final release build."
+    store_listed:
+      - 4K Ultra HD
+      - 120 fps
+      - 60 fps+
+      - Smart Delivery
+      - Optimized for Xbox Series X|S
+      - Xbox achievements
+      - Xbox cloud saves
+      - Xbox cross-platform multiplayer
+      - Xbox cross-platform co-op
+      - Xbox Live Cross-Gen Multiplayer
+      - Variable Refresh Rate
+    game_pass_status: "Not confirmed. The Xbox store mentions that online multiplayer on console requires a Game Pass subscription (Core/Ultimate), but that does not mean Witchbrook is included in Game Pass."
 
 steam_features:
   - Steam Achievements
@@ -167,6 +170,7 @@ multiplayer:
   dev_quote: "No plans for split screen, but we'll be talking more about how our co-op works at a later date!"
 
 gameplay_systems:
+  classes_notes: "The following subject areas are referenced across official dev blogs and store pages. Not all may be formal named 'classes' — treat them as confirmed magical study areas until the full curriculum is revealed."
   classes:
     - Alchemy: teas → salves → potions. Client-facing. Hands-on.
     - Divination: tarot (day), constellations (night). Held in Observatory/Astronomy Tower.
@@ -211,6 +215,7 @@ gameplay_systems:
     free_time: Build relationships, dates, fashion, interior design, clubs, cooking, gardening, festivals.
 
 romance:
+  general_notes: "Revealed so far. Not all candidates confirmed with L1 official sources — treat as 'reported / revealed' not 'full confirmed roster.'"
   confirmed_candidates:
     - Hana Sato: First dateable character revealed. Tied to Calico fashion shop. Upbeat social energy.
     - Pip: Witch-mechanic, harbour workshop, chaotic inventiveness. Magic-meets-machinery.
@@ -378,7 +383,7 @@ games_like_witchbrook:
 /switch-2/ → /switch/, /platforms/
 /xbox/ → /multiplayer/, /platforms/
 /ps5/ → /platforms/
-/multiplayer/ → /co-op/, /switch/, /xbox/
+/multiplayer/ → /platforms/, /switch/, /xbox/, /steam/
 /steam/ → /platforms/, /release-date/
 /classes/ → /assignments/, /witchy-business/
 /assignments/ → /classes/, /exams/(future)
@@ -420,6 +425,12 @@ export interface Section {
   sourceUrl?: string;
 }
 ```
+
+### Sitemap & Robots 生成方式
+- 使用 Next.js 动态路由：`src/app/sitemap.ts` 从 `guides.ts` 自动读取所有 slug 生成 sitemap
+- 使用 Next.js 动态路由：`src/app/robots.ts` 自动生成 robots
+- 不要使用手动编辑的 `public/sitemap.xml`（除非现有模板本身就是静态 sitemap）
+- 以后新增页面不需要手改 sitemap
 
 ### SEO Checklist（Codex 必须全过）
 1. 每个页面 unique title（50-60 字符）
@@ -465,8 +476,9 @@ witchbrook-guide/
 │   └── images/
 ├── next.config.ts
 ├── vercel.json
-├── sitemap.xml (generated)
-└── robots.txt
+├── src/app/sitemap.ts (auto-generated from guides.ts)
+├── src/app/robots.ts (auto-generated)
+└── robots.txt (fallback, if template requires)
 ```
 
 ---
