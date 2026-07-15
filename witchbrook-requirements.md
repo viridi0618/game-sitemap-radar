@@ -6,6 +6,48 @@
 > 首批页面：16 页
 > 状态：老大已审核，修 6 点后进入 Codex 框架阶段
 > 最近修改：2026-07-15（老大审核后）
+> **Template: Moonlight Peaks guide site template**
+> **Domain: witchbrookguide.com** (待确认)
+> **Site name: Witchbrook Guide**
+
+---
+
+## IMPORTANT — Template Requirement
+
+This Witchbrook project must be built by adapting the existing Moonlight Peaks guide site template.
+Use the Moonlight Peaks project as the visual and engineering base:
+- same overall page layout
+- same dark cozy guide style
+- same GuideCard / GuidePage structure
+- same SEO/schema patterns
+- same data-driven guides.ts approach
+- same image field structure
+- same sitemap / robots approach
+- same Header / Footer / card-based navigation style
+
+Do not rebuild from scratch.
+Do not create a new design system.
+Do not switch framework or routing style.
+Do not replace the existing Moonlight-style components unless a small adaptation is necessary.
+
+Adapt the branding, colors, copy, navigation, metadata, and content from Moonlight Peaks to Witchbrook.
+The final site should feel like a Witchbrook-themed version of the Moonlight Peaks guide site, not a generic new wiki.
+
+Moonlight 的结构 + Witchbrook 的品牌。
+
+## Cleanup Checklist (Remove All Moonlight Peaks Traces)
+
+Remove all Moonlight Peaks-specific content, metadata, routes, images, schema names, footer references, and copy unless intentionally reused as a comparison link.
+
+After adaptation, the site must NOT contain:
+- "Moonlight Peaks Guide" as site name
+- `moonlightpeaksguide.wiki` as canonical URL
+- Moonlight-specific metadata / OG images
+- Moonlight-specific guide routes
+- Moonlight image credits or screenshot URLs
+- Moonlight schema names
+
+Exception: `/games-like-witchbrook/` may mention Moonlight Peaks as a similar game — that is content, not template residue.
 
 ---
 
@@ -399,9 +441,19 @@ games_like_witchbrook:
 ## PART 6: Codex 交付要求
 
 ### 技术栈
-- Next.js 静态导出（与现有 Wiki 模板一致）
+- Next.js static export, adapted from the existing Moonlight Peaks guide site template.
 - TypeScript
 - Tailwind CSS
+
+The Witchbrook site should reuse the Moonlight Peaks template architecture and visual style:
+- data-driven guide pages
+- GuideCard image/card layout
+- GuidePage hero layout
+- dark cozy theme
+- schema helpers
+- site-config pattern
+- sitemap/robots pattern
+- SEO validation scripts where applicable
 
 ### 数据架构
 ```ts
